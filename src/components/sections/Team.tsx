@@ -9,11 +9,13 @@ import { cn } from "@/lib/utils";
 const [lead, ...crew] = team;
 
 /**
- * One crew, one lineup. Byku (the owner) leads: larger and raised in the middle,
- * the rest stand around him in the same line.
- *   xl+:   9-column lineup, Byku spans 2 columns in the centre, 3 left / 4 right.
- *   md-xl: 5 columns: crew, Byku (3 wide), crew / then 5 crew.
+ * One crew of hexagon portraits. Byku (the owner) is the large anchor; the other seven form a
+ * honeycomb ring: one in the middle, six around it (placement in globals.css, DOM order unchanged).
+ *   lg+:   Byku on the left (hexagon, text below), the ring on the right.
+ *   md-lg: Byku as a wide row at the top left (hexagon, text beside), the ring below.
  *   mobile: Byku as a wide lead row, crew in 2 columns, booking tile closes the grid.
+ * The LED outline reacts only to the hexagon itself (its clip-path is the hit area) or to keyboard
+ * focus on the barber's Booksy link.
  */
 export function Team() {
   return (
@@ -26,16 +28,12 @@ export function Team() {
           <BookingButton source="ekipa" className="hidden md:inline-flex" />
         </div>
 
-        <ol className="lineup mt-10 grid grid-cols-2 items-start gap-x-3 gap-y-8 sm:gap-x-5 md:mt-14 md:grid-cols-5 xl:grid-cols-9 xl:gap-x-4">
-          <Member
-            employee={lead}
-            lead
-            className="lineup-lead col-span-2 md:col-span-3 md:col-start-2 md:row-start-1 xl:col-span-2 xl:col-start-4"
-          />
-          {crew.map((e) => (
-            <Member key={e.id} employee={e} />
+        <ol className="lineup mt-10 grid grid-cols-2 items-start gap-x-3 gap-y-8 sm:gap-x-5 md:mt-14">
+          <Member employee={lead} lead className="lineup-lead col-span-2" />
+          {crew.map((e, i) => (
+            <Member key={e.id} employee={e} className={i % 2 ? "lineup-down" : undefined} />
           ))}
-          <li className="lineup-cta flex flex-col justify-end gap-3 self-stretch border-t border-graphite pt-4 md:hidden">
+          <li className="lineup-cta lineup-down flex flex-col justify-end gap-3 self-stretch border-t border-graphite pt-4 md:hidden">
             <p className="t-meta text-steel">Barbera, usługę i godzinę wybierasz na Booksy.</p>
             <BookingButton source="ekipa" size="sm" className="w-full !px-3" />
           </li>
@@ -48,18 +46,21 @@ export function Team() {
 function Member({ employee: e, lead = false, className }: { employee: Employee; lead?: boolean; className?: string }) {
   const url = e.bookingUrl ?? site.bookingUrl;
   return (
-    <li className={cn("group flex min-w-0 flex-col", lead && "max-md:grid max-md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] max-md:items-end max-md:gap-x-4", className)}>
-      <figure>
-        <div data-reveal="clip" className="relative aspect-[4/5] overflow-hidden bg-[#6b6c6e]">
+    <li className={cn("group flex min-w-0 flex-col", lead && "max-lg:grid max-lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] max-lg:items-end max-lg:gap-x-4", className)}>
+      <figure data-reveal="rise" className="hex-portrait">
+        <div className="hex-portrait__photo">
           <Image
             src={e.image.src}
             alt={e.image.alt}
             fill
-            sizes={lead ? "(min-width:1280px) 20vw, (min-width:768px) 44vw, 50vw" : "(min-width:1280px) 10vw, (min-width:768px) 22vw, 46vw"}
+            sizes={lead ? "(min-width:1024px) 26vw, (min-width:768px) 45vw, 60vw" : "(min-width:1024px) 10vw, (min-width:768px) 14vw, 46vw"}
             quality={80}
-            className="object-cover object-[50%_35%] transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.03]"
+            className="object-cover object-[50%_35%] transition-transform duration-[1.2s] ease-[var(--ease-out-expo)]"
           />
         </div>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false" className="hex-portrait__ring">
+          <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" />
+        </svg>
       </figure>
 
       <div data-reveal="fade" className={cn("min-w-0 pt-3", lead && "md:pt-4")}>

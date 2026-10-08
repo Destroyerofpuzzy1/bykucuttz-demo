@@ -9,11 +9,12 @@ export function Salons() {
   const multi = salons.length > 1;
 
   return (
-    <section id="salony" aria-labelledby="salony-title" className="relative bg-ink">
-      {/* intro: the manifest's LED tube continues and becomes the divider */}
-      <div className="relative flex flex-col items-center justify-center overflow-hidden px-[var(--gutter)] py-[clamp(6rem,15vw,12rem)] text-center lg:min-h-[80svh]">
+    <section id="salony" aria-labelledby="salony-title" className="relative">
+      {/* intro: the manifest's LED tube continues and becomes the divider.
+          No background here: the manifest's LED wall runs on behind the intro (the panels below are opaque). */}
+      <div data-hex-grid-end className="relative flex flex-col items-center justify-center overflow-hidden px-[var(--gutter)] pb-[clamp(4rem,6vw,6rem)] pt-[clamp(3.5rem,5vw,5rem)] text-center">
         <div aria-hidden="true" data-led-scrub className="led-tube absolute right-4 top-0 h-full w-[2px] origin-top md:left-1/2 md:right-auto md:-ml-px" />
-        <h2 id="salony-title" data-reveal="lines" className="t-statement relative !max-w-none">
+        <h2 id="salony-title" data-reveal="slide" className="t-statement t-statement--compact text-scrim relative !max-w-none">
           {multi ? (
             <>
               Dwa miejsca.
@@ -28,7 +29,7 @@ export function Salons() {
             </>
           )}
         </h2>
-        <p data-reveal="fade" className="t-body-l relative mt-6 bg-ink px-3 text-steel md:mt-8">
+        <p data-reveal="fade" className="t-body-l text-scrim relative mt-6 px-3 text-steel md:mt-8">
           {multi ? "Wybierz swój salon." : "Bałuty, Łódź."}
         </p>
       </div>

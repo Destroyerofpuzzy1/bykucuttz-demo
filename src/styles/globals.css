@@ -94,6 +94,11 @@
     letter-spacing: -0.01em;
     text-transform: uppercase;
   }
+  /* statements on the LED wall (manifest, salons intro): ~27% smaller on desktop, a gentler step
+     down on phones (28px: "JEDEN STANDARD." still fits one line at 375) so they keep their weight */
+  .t-statement--compact {
+    font-size: clamp(1.75rem, 4.5vw, 5.1rem);
+  }
   .t-display {
     font-size: clamp(2rem, 4.6vw, 5rem);
     font-weight: 800;
@@ -284,6 +289,78 @@
 }
 html.no-loader .loader {
   display: none;
+}
+
+/* ============ HEX GRID (manifest) ============ */
+/* Decorative procedural LED wall (HexGrid), separate from the photo-traced hero LEDs. It covers the
+   manifest and runs on behind the salons intro (--grid-ext; the panels below are opaque). Dark blue
+   tubes without current; scroll powers hexagons on in the CTA cyan. */
+.hex-grid {
+  position: absolute;
+  inset: 0 0 calc(-1 * var(--grid-ext, 0px));
+  overflow: hidden;
+  pointer-events: none;
+  /* a short blend out of the hero, no band */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 min(2.5rem, 7vw));
+  mask-image: linear-gradient(to bottom, transparent, #000 min(2.5rem, 7vw));
+}
+.hex-grid svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-linejoin: round;
+}
+.hex-grid path {
+  vector-effect: non-scaling-stroke;
+}
+.hex-grid__base {
+  stroke: var(--color-cyan-deep);
+  stroke-opacity: 0.2;
+  stroke-width: 1;
+}
+.hex-grid__lit {
+  /* neon halo of the whole lit layer: one filter on its own compositor layer, never per tube */
+  filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.9)) drop-shadow(0 0 12px rgb(97 204 240 / 0.45));
+  will-change: transform;
+}
+.hex-grid__cell {
+  stroke: var(--color-cyan);
+  stroke-width: 1.5;
+}
+.js-motion .hex-grid__cell {
+  opacity: 0;
+}
+/* the wall's light in the room, rising with the share of the wall that is on */
+.hex-grid__ambient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgb(47 141 176 / 0.28), rgb(47 141 176 / 0) 72%);
+  opacity: 0.7;
+}
+.js-motion .hex-grid__ambient {
+  opacity: 0;
+}
+/* slightly quieter in the middle, where the type sits */
+.hex-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 55% at 50% 40%, rgb(6 7 8 / 0.35), rgb(6 7 8 / 0) 75%);
+}
+/* soft dark ground behind display type on the grid, so the type always leads */
+.text-scrim {
+  position: relative;
+  isolation: isolate;
+}
+.text-scrim::before {
+  content: "";
+  position: absolute;
+  inset: -0.45em -0.7em;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(6 7 8 / 0.82), rgb(6 7 8 / 0.5) 55%, rgb(6 7 8 / 0));
+  pointer-events: none;
 }
 
 /* ============ SALONS ============ */
@@ -558,21 +635,177 @@ html.no-loader .loader {
 }
 
 /* ============ TEAM LINEUP ============
-   Byku stands raised in the middle; the crew portraits share one top line,
-   starting just below Byku's portrait so the lineup reads as one group. */
-@media (min-width: 768px) and (max-width: 1279.98px) {
-  /* the two crew members beside Byku in row 1 stand on his baseline */
-  .lineup > li:nth-child(2),
-  .lineup > li:nth-child(3) {
-    align-self: end;
+   Byku is the large anchor; the other seven form a honeycomb ring: one in the middle, six around. */
+.lineup {
+  container-type: inline-size;
+}
+/* phones: crew in 2 columns, every second portrait a quarter hexagon (0.2887 x column width) lower,
+   as a visual offset only, so the grid keeps its height */
+.lineup-down {
+  translate: 0 calc((100cqw - 0.75rem) / 2 * 0.2887);
+}
+@media (min-width: 640px) {
+  .lineup-down {
+    translate: 0 calc((100cqw - 1.25rem) / 2 * 0.2887);
   }
 }
-@media (min-width: 1280px) {
+/* the ring: on 5 columns with step s = column + gap and a row step of 1.732 s, the six around sit
+   exactly 2 s from the middle one (a regular hexagonal ring). Each card's text hangs below its
+   hexagon into a column that has no hexagon there, so nothing overlaps. Middle: Kacper; around,
+   clockwise from the top left: Kamil, Sandra, Kasim, Patryk, Ryan, Macias (DOM order unchanged). */
+@media (min-width: 768px) {
   .lineup {
-    --g: 1rem;
-    --c: calc((min(100vw, 110rem) - 2 * var(--gutter) - 8 * var(--g)) / 9);
+    --w: clamp(6.5rem, 9.6vw, 9rem);
+    --g: clamp(0.75rem, 1.3vw, 1.5rem);
+    --row: calc((var(--w) + var(--g)) * 1.732);
+    grid-template-columns: repeat(5, var(--w));
+    grid-template-rows: auto var(--row) var(--row) auto;
+    justify-content: center;
+    column-gap: var(--g);
+    row-gap: 0;
   }
-  .lineup > li:not(.lineup-lead):not(.lineup-cta) {
-    padding-top: calc(var(--c) * 1.25 + 4.5rem);
+  .lineup-down {
+    translate: none;
+  }
+  /* tablets: Byku as a wide row on top (hexagon, text beside), the ring below */
+  .lineup > .lineup-lead {
+    grid-area: 1 / 1 / 2 / 6;
+    margin-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+  .lineup > li:nth-child(2) {
+    grid-area: 3 / 3;
+  }
+  .lineup > li:nth-child(3) {
+    grid-area: 2 / 2;
+  }
+  .lineup > li:nth-child(4) {
+    grid-area: 2 / 4;
+  }
+  .lineup > li:nth-child(5) {
+    grid-area: 3 / 5;
+  }
+  .lineup > li:nth-child(6) {
+    grid-area: 4 / 4;
+  }
+  .lineup > li:nth-child(7) {
+    grid-area: 4 / 2;
+  }
+  .lineup > li:nth-child(8) {
+    grid-area: 3 / 1;
+  }
+}
+@media (min-width: 1024px) {
+  /* Byku the large anchor on the left (hexagon, text below), the ring on the right */
+  .lineup {
+    --lead: clamp(16rem, 26vw, 25rem);
+    grid-template-columns: var(--lead) clamp(2.5rem, 5vw, 6rem) repeat(5, var(--w));
+    grid-template-rows: var(--row) var(--row) auto;
+  }
+  .lineup > .lineup-lead {
+    grid-area: 1 / 1 / 4 / 2;
+    align-self: center;
+    margin-bottom: 0;
+  }
+  .lineup > li:nth-child(2) {
+    grid-area: 2 / 5;
+  }
+  .lineup > li:nth-child(3) {
+    grid-area: 1 / 4;
+  }
+  .lineup > li:nth-child(4) {
+    grid-area: 1 / 6;
+  }
+  .lineup > li:nth-child(5) {
+    grid-area: 2 / 7;
+  }
+  .lineup > li:nth-child(6) {
+    grid-area: 3 / 6;
+  }
+  .lineup > li:nth-child(7) {
+    grid-area: 3 / 4;
+  }
+  .lineup > li:nth-child(8) {
+    grid-area: 2 / 3;
+  }
+}
+
+/* hexagon portraits: a regular pointy-top hexagon (width = 0.866 x height) clips the photo without
+   distorting it (cover); a thin CTA-cyan LED outline sits on the edge and powers on on hover/focus */
+.hex-portrait {
+  position: relative;
+}
+.hex-portrait__photo {
+  position: relative;
+  aspect-ratio: 0.866;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background: #6b6c6e;
+}
+.hex-portrait__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--color-cyan);
+  stroke-width: 1.25px;
+  stroke-opacity: 0.5;
+  stroke-linejoin: round;
+  transition:
+    stroke-opacity 0.35s ease,
+    filter 0.35s ease;
+}
+.hex-portrait__ring polygon {
+  vector-effect: non-scaling-stroke;
+}
+/* only the hexagon itself triggers it: the photo's clip-path is its hit area, so the pointer outside
+   the shape (corners, the text below) never counts; keyboard focus on the barber's Booksy link
+   (focus-visible, not a mouse click) lights it too */
+.hex-portrait__photo:hover + .hex-portrait__ring,
+.group:has(a:focus-visible) .hex-portrait__ring {
+  stroke-opacity: 1;
+  filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.85)) drop-shadow(0 0 10px rgb(97 204 240 / 0.35));
+  animation: hex-led-on 0.55s linear;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hex-portrait__photo:hover img {
+    scale: 1.03;
+  }
+}
+/* the LED tube start: hot flash, flicker, settle into the CTA cyan */
+@keyframes hex-led-on {
+  0% {
+    stroke: #dff8ff;
+    stroke-width: 2.5px;
+    stroke-opacity: 1;
+  }
+  12% {
+    stroke-opacity: 0.25;
+  }
+  22% {
+    stroke-opacity: 1;
+  }
+  34% {
+    stroke-opacity: 0.55;
+  }
+  46% {
+    stroke: #dff8ff;
+    stroke-width: 2.5px;
+    stroke-opacity: 1;
+  }
+  100% {
+    stroke: var(--color-cyan);
+    stroke-width: 1.25px;
+    stroke-opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hex-portrait__ring {
+    transition: none;
+  }
+  .hex-portrait__photo:hover + .hex-portrait__ring,
+  .group:has(a:focus-visible) .hex-portrait__ring {
+    animation: none;
   }
 }
