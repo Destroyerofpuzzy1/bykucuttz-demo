@@ -17,19 +17,16 @@ type Props = {
 
 export function Header({ variant = "home", address }: Props) {
   const [solid, setSolid] = useState(variant === "page");
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // solid after the hero; hide on scroll down, show on scroll up (ScrollTrigger, no scroll listener)
+  // always visible; solid background after the hero (ScrollTrigger, no scroll listener)
   useGSAP(() => {
     const st = ScrollTrigger.create({
       start: 0,
       end: "max",
       onUpdate: (self) => {
-        const y = self.scroll();
-        if (variant === "home") setSolid(y > window.innerHeight * 0.85);
-        setHidden(self.direction === 1 && y > window.innerHeight * 0.6);
+        if (variant === "home") setSolid(self.scroll() > window.innerHeight * 0.85);
       },
     });
     return () => st.kill();
@@ -46,9 +43,8 @@ export function Header({ variant = "home", address }: Props) {
       <header
         {...(variant === "home" ? { "data-hero": "nav" } : {})}
         className={cn(
-          "fixed inset-x-0 top-0 z-[var(--z-nav)] transition-[background-color,transform] duration-500 ease-[var(--ease-out-expo)]",
-          solid ? "bg-carbon/95" : "bg-transparent",
-          hidden && !open ? "-translate-y-full" : "translate-y-0"
+          "fixed inset-x-0 top-0 z-[var(--z-nav)] transition-[background-color] duration-500 ease-[var(--ease-out-expo)]",
+          solid ? "bg-carbon/95" : "bg-transparent"
         )}
       >
         <nav aria-label="Główna" className="container-x flex h-[var(--nav-h)] items-center justify-between gap-6">
