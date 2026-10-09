@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { team, type Employee } from "@/data/team";
 import { site } from "@/data/site";
 import { BookingButton } from "@/components/ui/Button";
@@ -45,6 +46,10 @@ export function Team() {
 
 function Member({ employee: e, lead = false, className }: { employee: Employee; lead?: boolean; className?: string }) {
   const url = e.bookingUrl ?? site.bookingUrl;
+  // Only a verified individual staff URL may promise a direct booking; the general profile means the
+  // visitor picks the barber on Booksy.
+  const label = e.bookingUrl ? `Umów się do ${e.genitive}` : `Wybierz ${e.accusative} na Booksy`;
+  const cut = label.lastIndexOf(" ") + 1;
   return (
     <li className={cn("group flex min-w-0 flex-col", lead && "max-lg:grid max-lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] max-lg:items-end max-lg:gap-x-4", className)}>
       <figure data-reveal="rise" className="hex-portrait">
@@ -87,9 +92,18 @@ function Member({ employee: e, lead = false, className }: { employee: Employee; 
           </figure>
         )}
 
-        <a {...bookingLinkProps("ekipa", url)} className="mt-1 inline-flex min-h-10 items-center text-[0.8125rem] font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-cyan">
-          Umów się do {e.genitive}
-          <span className="sr-only"> (Booksy, otwiera się w nowej karcie)</span>
+        <a {...bookingLinkProps("ekipa", url)} className="mt-1 inline-flex min-h-10 items-center text-[0.8125rem] font-semibold underline decoration-1 underline-offset-4 transition-colors hover:text-cyan focus-visible:text-cyan">
+          <span>
+            {label.slice(0, cut)}
+            {/* the last word and the arrow never wrap apart */}
+            <span className="whitespace-nowrap">
+              {label.slice(cut)}
+              <ArrowUpRight size={14} weight="light" aria-hidden="true" className="link-arrow ml-1 inline align-[-0.125em]" />
+            </span>
+          </span>
+          <span className="sr-only">
+            {e.bookingUrl ? " (Booksy, otwiera się w nowej karcie)" : " (profil salonu na Booksy, otwiera się w nowej karcie)"}
+          </span>
         </a>
       </div>
     </li>

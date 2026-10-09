@@ -329,7 +329,7 @@ export function AcademyGallery({ children, count, label }: { children: ReactNode
       <div className="academy-gallery-footer container-x">
         <div ref={controls} className="academy-gallery-controls" role="group" aria-label="Sterowanie zdjęciami">
           <p className="academy-strip-count t-meta" aria-live={loop ? "off" : "polite"} aria-atomic="true">
-            <span className="text-cyan">Po szkoleniu</span> {pad(position.index + 1)} / {pad(count)}
+            <span className="academy-accent">Po szkoleniu</span> {pad(position.index + 1)} / {pad(count)}
           </p>
           {/* rendered from the start (CSS hides it without motion), so nothing shifts on hydration */}
           <button

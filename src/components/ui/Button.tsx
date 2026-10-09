@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { bookingLinkProps, type CtaSource } from "@/lib/booking";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +24,7 @@ export function BookingButton({ source, url, children = "Umów wizytę", classNa
   );
 }
 
-/** Underlined text link (secondary actions). */
+/** Underlined text link (secondary actions); external ones get the arrow and a new-tab note. */
 export function TextLink({
   href,
   children,
@@ -38,6 +39,12 @@ export function TextLink({
   return (
     <a href={href} className={cn("link-line", className)} {...(external ? { target: "_blank", rel: "noopener" } : {})}>
       {children}
+      {external && (
+        <>
+          <ArrowUpRight size={16} weight="light" aria-hidden="true" className="link-arrow" />
+          <span className="sr-only"> (otwiera się w nowej karcie)</span>
+        </>
+      )}
     </a>
   );
 }

@@ -9,8 +9,10 @@ export interface Employee {
   id: string;
   /** name as listed on Booksy */
   name: string;
-  /** genitive form for "Umów się do ..." / "u ..." */
+  /** genitive form for "u ..." attributions */
   genitive: string;
+  /** accusative form for "Wybierz ... na Booksy" */
+  accusative: string;
   image: Img;
   /** TO PROVIDE: individual Booksy staff link. null = main Booksy profile (barber is chosen there). */
   bookingUrl: string | null;
@@ -28,6 +30,7 @@ export const team: Employee[] = [
     id: "byku",
     name: "Byku",
     genitive: "Byku",
+    accusative: "Byku",
     image: portrait("byku", "Byku"),
     bookingUrl: null,
     role: null,
@@ -38,6 +41,7 @@ export const team: Employee[] = [
     id: "kacper",
     name: "Kacper",
     genitive: "Kacpra",
+    accusative: "Kacpra",
     image: portrait("kacper", "Kacper"),
     bookingUrl: null,
     role: null,
@@ -47,6 +51,7 @@ export const team: Employee[] = [
     id: "kamil",
     name: "Kamil",
     genitive: "Kamila",
+    accusative: "Kamila",
     image: portrait("kamil", "Kamil"),
     bookingUrl: null,
     role: null,
@@ -56,6 +61,7 @@ export const team: Employee[] = [
     id: "sandra",
     name: "Sandra",
     genitive: "Sandry",
+    accusative: "Sandrę",
     image: portrait("sandra", "Sandra"),
     bookingUrl: null,
     role: null,
@@ -66,15 +72,18 @@ export const team: Employee[] = [
     id: "kasim",
     name: "Kasim",
     genitive: "Kasima",
+    accusative: "Kasima",
     image: portrait("kasim", "Kasim"),
     bookingUrl: null,
     role: null,
-    review: { text: "🔝🔝🔝", author: "szymon", source: "Booksy" },
+    // The only verified Booksy review naming Kasim is emoji-only ("🔝🔝🔝"); omitted rather than replaced.
+    review: null,
   },
   {
     id: "patryk",
     name: "Patryk",
     genitive: "Patryka",
+    accusative: "Patryka",
     image: portrait("patryk", "Patryk"),
     bookingUrl: null,
     role: null,
@@ -84,6 +93,7 @@ export const team: Employee[] = [
     id: "ryan",
     name: "Ryan",
     genitive: "Ryana",
+    accusative: "Ryana",
     image: portrait("ryan", "Ryan"),
     bookingUrl: null,
     role: null,
@@ -93,6 +103,7 @@ export const team: Employee[] = [
     id: "macias",
     name: "Macias",
     genitive: "Maciasa",
+    accusative: "Maciasa",
     image: portrait("macias", "Macias"),
     bookingUrl: null,
     role: null,

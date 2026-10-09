@@ -85,10 +85,10 @@ export default function PrivacyPolicy() {
             </section>
 
             <section>
-              <h2>6. Instagram i Mapy Google</h2>
+              <h2>6. Instagram, Facebook i Mapy Google</h2>
               <p>
-                Strona zawiera zwykłe linki do naszego profilu na Instagramie ({site.socials.instagram.handle}) oraz do Map
-                Google (przycisk „Prowadź”). Nie osadzamy na stronie treści z tych serwisów. Dopiero po kliknięciu linku
+                Strona zawiera zwykłe linki do naszego profilu na Instagramie ({site.socials.instagram.handle})
+                {site.socials.facebook && " i na Facebooku"} oraz do Map Google (przycisk „Prowadź”). Nie osadzamy na stronie treści z tych serwisów. Dopiero po kliknięciu linku
                 przechodzisz do zewnętrznego serwisu, który przetwarza dane według własnych zasad.
               </p>
             </section>

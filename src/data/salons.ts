@@ -49,8 +49,9 @@ export const salons: Salon[] = [
     street: verified("Drewnowska 49a, LU11"),
     postcode: verified("91-002 Łódź"),
     hours: verified([
-      { days: "Pon-Pt", ranges: ["10:00-14:30", "15:00-20:00"] },
-      { days: "Sob", ranges: ["09:00-12:40", "13:00-17:00"] },
+      // display copy: ranges written with "do", no dash separators (JSON-LD keeps its own format)
+      { days: "Pon do Pt", ranges: ["10:00 do 14:30", "15:00 do 20:00"] },
+      { days: "Sob", ranges: ["09:00 do 12:40", "13:00 do 17:00"] },
       { days: "Nd", ranges: ["zamknięte"] },
     ]),
     phone: missing<string>(undefined, "Booksy hides the phone number behind login."),

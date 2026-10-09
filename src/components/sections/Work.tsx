@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { InstagramLogo } from "@phosphor-icons/react/dist/ssr";
+import { InstagramLogo, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { work, type WorkItem } from "@/data/work";
 import { site } from "@/data/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -28,8 +28,10 @@ export function Work() {
             data-reveal="fade"
             className="link-line self-start text-[clamp(1rem,1.4vw,1.25rem)] font-bold [font-stretch:110%] md:self-auto"
           >
-            <InstagramLogo size={22} weight="light" aria-hidden="true" />
+            <InstagramLogo size={22} weight="light" aria-hidden="true" className="link-icon" />
             Więcej na {site.socials.instagram.handle}
+            <ArrowUpRight size={18} weight="light" aria-hidden="true" className="link-arrow" />
+            <span className="sr-only"> (Instagram, otwiera się w nowej karcie)</span>
           </a>
         </div>
 
@@ -46,7 +48,7 @@ export function Work() {
 
 function Frame({ item, className, sizes, priority }: { item: WorkItem; className?: string; sizes: string; priority?: boolean }) {
   return (
-    <figure className={cn("flex flex-col", className)}>
+    <figure className={cn("group flex flex-col", className)}>
       <div data-reveal="clip" className="relative aspect-[4/5] w-full overflow-hidden bg-carbon">
         <Image
           src={item.image.src}
@@ -55,12 +57,12 @@ function Frame({ item, className, sizes, priority }: { item: WorkItem; className
           sizes={sizes}
           quality={80}
           loading={priority ? "eager" : "lazy"}
-          className="object-cover"
+          className="object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] motion-safe:group-hover:scale-[1.015]"
           style={{ objectPosition: item.position }}
         />
       </div>
       <figcaption className="t-meta mt-3 flex items-center gap-3 text-steel">
-        <span aria-hidden="true" className="h-px w-6 bg-cyan" />
+        <span aria-hidden="true" className="h-px w-6 bg-cyan transition-[width] duration-300 ease-[var(--ease-out-expo)] motion-safe:group-hover:w-10" />
         {item.caption}
       </figcaption>
     </figure>

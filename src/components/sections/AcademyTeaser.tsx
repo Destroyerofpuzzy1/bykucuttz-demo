@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { AcademyLogo } from "@/components/brand/AcademyLogo";
 import { academyPractice } from "@/data/academy";
 
@@ -11,7 +12,7 @@ export function AcademyTeaser() {
           <div className="academy-teaser-logo"><AcademyLogo /></div>
           <h2 id="academy-teaser-heading">Strzyżemy. <br />Dzielimy się wiedzą.</h2>
           <p>Szkolenia barberskie od BYKUCUTZZ w Łodzi. Fade Control, Shape Control i praktyka, która pomaga zrozumieć technikę.</p>
-          <a href="/cutz-academy" className="link-line" data-cta="academy-home">Poznaj CUTZ ACADEMY <span aria-hidden="true">↗</span></a>
+          <a href="/cutz-academy" className="link-line" data-cta="academy-home">Poznaj CUTZ ACADEMY <ArrowUpRight size={18} weight="light" aria-hidden="true" className="link-arrow" /></a>
         </div>
       </div>
     </aside>

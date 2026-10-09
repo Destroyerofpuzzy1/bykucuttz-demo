@@ -1,11 +1,14 @@
-import { InstagramLogo, FacebookLogo, Phone, NavigationArrow, CalendarCheck } from "@phosphor-icons/react/dist/ssr";
+import { InstagramLogo, FacebookLogo, Phone, NavigationArrow, CalendarCheck, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { site } from "@/data/site";
 import { visibleSalons, show, salonBookingUrl } from "@/data/salons";
 import { bookingLinkProps } from "@/lib/booking";
 
-const linkCls = "inline-flex min-h-12 items-center gap-3 font-semibold transition-colors hover:text-cyan";
+const ICON = 22;
+const NEW_TAB = <span className="sr-only"> (otwiera się w nowej karcie)</span>;
+const Arrow = () => <ArrowUpRight size={18} weight="light" aria-hidden="true" className="link-arrow" />;
 
-/** Logistics. Verified facts only; phone and Facebook render once provided in data/site.ts. */
+/** Logistics. Verified facts only; the phone renders once provided in data/site.ts. Every action is a
+ *  ruled row (cyan icon, white label, external arrow) with the shared cyan-rule hover (globals.css). */
 export function Contact() {
   const salons = visibleSalons();
   const { instagram, facebook } = site.socials;
@@ -26,9 +29,9 @@ export function Contact() {
             const booking = salonBookingUrl(s);
             return (
               <div key={s.id} className="flex flex-col gap-4">
-                <p className="t-meta text-steel">
+                <p className="label-rule t-meta flex-wrap text-steel">
                   Salon {s.number}
-                  {p && <span className="ml-3 text-cyan">podgląd, dane do uzupełnienia</span>}
+                  {p && <span className="text-cyan">podgląd, dane do uzupełnienia</span>}
                 </p>
                 <h3 className="t-title">{show(s.district, p)}</h3>
                 <address className="not-italic leading-snug">
@@ -46,52 +49,68 @@ export function Contact() {
                     ))}
                   </dl>
                 )}
-                <ul className="mt-1 flex flex-col">
-                  {booking && (
-                    <li>
-                      <a {...bookingLinkProps("kontakt", booking)} className={linkCls}>
-                        <CalendarCheck size={20} weight="light" aria-hidden="true" /> Rezerwacja na Booksy
-                      </a>
-                    </li>
-                  )}
-                  {map && (
-                    <li>
-                      <a href={map} target="_blank" rel="noopener" className={linkCls}>
-                        <NavigationArrow size={20} weight="light" aria-hidden="true" className="rotate-90" /> Prowadź do salonu
-                      </a>
-                    </li>
-                  )}
-                  {phone && (
-                    <li>
-                      <a href={`tel:${phone.replace(/\s/g, "")}`} className={linkCls}>
-                        <Phone size={20} weight="light" aria-hidden="true" /> {phone}
-                      </a>
-                    </li>
-                  )}
-                </ul>
+                {(booking || map || phone) && (
+                  <ul className="link-rows mt-2 flex flex-col">
+                    {booking && (
+                      <li>
+                        <a {...bookingLinkProps("kontakt", booking)} className="link-row">
+                          <CalendarCheck size={ICON} weight="light" aria-hidden="true" className="link-icon" />
+                          Rezerwacja na Booksy
+                          <Arrow />
+                          <span className="sr-only"> (Booksy, otwiera się w nowej karcie)</span>
+                        </a>
+                      </li>
+                    )}
+                    {map && (
+                      <li>
+                        <a href={map} target="_blank" rel="noopener" className="link-row">
+                          <NavigationArrow size={ICON} weight="light" aria-hidden="true" className="link-icon rotate-90" />
+                          Prowadź do salonu
+                          <Arrow />
+                          {NEW_TAB}
+                        </a>
+                      </li>
+                    )}
+                    {phone && (
+                      <li>
+                        <a href={`tel:${phone.replace(/\s/g, "")}`} className="link-row">
+                          <Phone size={ICON} weight="light" aria-hidden="true" className="link-icon" /> {phone}
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                )}
               </div>
             );
           })}
 
           <div className="flex flex-col gap-4">
-            <p className="t-meta text-steel">Social</p>
-            <ul className="flex flex-col">
+            <p className="label-rule t-meta text-steel">Social</p>
+            <ul className="link-rows mt-2 flex flex-col">
               <li>
-                <a href={instagram.url} target="_blank" rel="noopener" className={linkCls}>
-                  <InstagramLogo size={22} weight="light" aria-hidden="true" /> Instagram {instagram.handle}
+                <a href={instagram.url} target="_blank" rel="noopener" className="link-row">
+                  <InstagramLogo size={ICON} weight="light" aria-hidden="true" className="link-icon" />
+                  <span>
+                    Instagram <span className="ml-1 font-medium text-steel">{instagram.handle}</span>
+                  </span>
+                  <Arrow />
+                  {NEW_TAB}
                 </a>
               </li>
               {facebook && (
                 <li>
-                  <a href={facebook.url} target="_blank" rel="noopener" className={linkCls}>
-                    <FacebookLogo size={22} weight="light" aria-hidden="true" /> Facebook
+                  <a href={facebook.url} target="_blank" rel="noopener" className="link-row">
+                    <FacebookLogo size={ICON} weight="light" aria-hidden="true" className="link-icon" />
+                    Facebook
+                    <Arrow />
+                    {NEW_TAB}
                   </a>
                 </li>
               )}
               {site.phone && (
                 <li>
-                  <a href={`tel:${site.phone.tel}`} className={linkCls}>
-                    <Phone size={22} weight="light" aria-hidden="true" /> {site.phone.display}
+                  <a href={`tel:${site.phone.tel}`} className="link-row">
+                    <Phone size={ICON} weight="light" aria-hidden="true" className="link-icon" /> {site.phone.display}
                   </a>
                 </li>
               )}

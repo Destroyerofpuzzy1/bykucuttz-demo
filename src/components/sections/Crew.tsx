@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { site } from "@/data/site";
 import { formatAtLeast, img } from "@/lib/utils";
-import { NeonSign } from "@/components/brand/NeonSign";
 
 const crew = img("/images/social/crew-4000.webp", "Ekipa BYKUCUTZZ przed salonem, z balonami w kształcie liczby 4000");
 
@@ -19,7 +18,6 @@ export function Crew() {
           </figcaption>
         </figure>
         <div className="md:col-span-6 lg:col-span-5 lg:col-start-8 md:pb-[8%]">
-          <NeonSign />
           <h2
             id="crew-title"
             data-reveal="lines"

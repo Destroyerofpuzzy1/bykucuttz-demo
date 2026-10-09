@@ -34,12 +34,14 @@ isolated preview from another worktree uses its own port, e.g.
 `assets-src/` contains source materials and is not served by Next.js. Optimized
 files in `public/images/` are served; `next/image` generates responsive variants.
 
-- `npm run assets`: original homepage pipeline.
+- `npm run assets`: original homepage pipeline (`npm run assets -- logo`: only the BYKUCUTZZ logo layers).
 - `npm run assets:academy`: Academy-only optimization, transparent logo and
   `src/data/academy-images.json`. Requires `cutzacademy.jpg`, `cutzacademy2.jpg`
   through `cutzacademy12.jpg`, `academy5.jpg`, `cut4.jpeg`, `cut6.jpeg` (Fade/Shape
   card crops) and the supplied native `cutzacademylogo.png` in `assets-src/`. If the
   PNG is absent, the script can use `cutzacademylogo.jpg` as a fallback.
+- `npm run assets:academy:logo`: traces `public/images/academy/logo.png` into the
+  inline SVG path used by `AcademyLogo` (`src/components/brand/academy-logo.json`).
 - `npm run assets:academy:videos -- "path/to/folder/with/the/mp4s"`: copies
   `academy.mp4` … `academy4.mp4` without re-encoding (needs `ffmpeg`/`ffprobe`), writes
   posters, the group still and `src/data/academy-videos.json`.

@@ -69,7 +69,7 @@ function jsonLd() {
           ].map(([opens, closes]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: ["Saturday"], opens, closes }))
         ),
       url: site.bookingUrl,
-      sameAs: [site.socials.instagram.url],
+      sameAs: [site.socials.instagram.url, ...(site.socials.facebook ? [site.socials.facebook.url] : [])],
     }));
 }
 

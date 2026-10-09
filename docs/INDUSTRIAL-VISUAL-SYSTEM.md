@@ -1,5 +1,11 @@
 # Industrial visual system
 
+> **Status 2026-10-09 (PASS A1): removed.** After the homepage audit the illustrated fittings
+> described below (BarberTools, HexLamps in SocialProof and Finale, the Crew NeonSign and
+> SteelChain) were deleted with their CSS, in favour of real photography and an uninterrupted
+> booking flow. Kept: the real hero ceiling, loader traces, Manifest HexGrid (to be evaluated
+> separately) and the Finale LED line. This document remains as the record of the earlier work.
+
 Local continuation of Claude's unfinished homepage work, 2026-10-09.
 Checkout: `feature/hex-3d-backgrounds`, preview `http://localhost:3000`.
 Implementation did not include Git publication. The client subsequently authorised commit and push on 2026-10-09; branch merge, dependency installation and deployment remain outside scope.

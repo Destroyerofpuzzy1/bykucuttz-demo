@@ -5,7 +5,8 @@
 //   src/data/images.json                           width/height manifest for next/image
 //   src/components/brand/led-traces.json           LED ceiling geometry traced from photos
 //
-// Run: npm run assets
+// Run: npm run assets            (everything)
+//      npm run assets -- logo    (only the logo layers)
 import sharp from "sharp";
 import potrace from "potrace";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -99,7 +100,11 @@ async function mask(input, { extract, scale = 1, test }) {
 
 // ---------- logo ----------
 async function logo() {
-  const extract = { left: 60, top: 80, width: 560, height: 180 }; // script lockup only, tagline is live type
+  // Script lockup only (the tagline is live type). In logo.jpeg the lockup's black outline spans
+  // x 66-619, y 85-269 and the tagline's accents start at y 276: the window keeps ~10 px of blue
+  // around the outline on the top, left and right and stops just above the accents. (The former
+  // 60/80/560x180 window ended at y 260 and x 620 and cut the outline flat at the bottom/right.)
+  const extract = { left: 56, top: 76, width: 572, height: 196 };
   const white = await mask(SRC("logo.jpeg"), { extract, scale: 4, test: (r, g, b) => r > 185 && g > 185 && b > 185 });
   const silhouette = await mask(SRC("logo.jpeg"), { extract, scale: 4, test: (r, g, b) => !(b - r > 70) });
   const opts = { turdSize: 40, optTolerance: 0.4, alphaMax: 1 };
@@ -145,6 +150,10 @@ async function leds() {
   console.log("led ok");
 }
 
-await Promise.all([photos(), logo(), leds()]);
-await writeFile(p("src/data/images.json"), JSON.stringify(manifest, null, 2));
-console.log("manifest ok", Object.keys(manifest).length);
+if (process.argv[2] === "logo") {
+  await logo();
+} else {
+  await Promise.all([photos(), logo(), leds()]);
+  await writeFile(p("src/data/images.json"), JSON.stringify(manifest, null, 2));
+  console.log("manifest ok", Object.keys(manifest).length);
+}

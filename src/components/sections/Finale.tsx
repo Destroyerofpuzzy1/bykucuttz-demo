@@ -1,8 +1,7 @@
 import { visibleSalons, show, salonBookingUrl } from "@/data/salons";
 import { BookingButton } from "@/components/ui/Button";
-import { HexLamps } from "@/components/brand/HexLamps";
 
-/** Nothing but the decision, under a lamp panel overhead. The LED tube from the loader closes the page. */
+/** Nothing but the decision. The LED tube from the loader closes the page. */
 export function Finale() {
   const bookable = visibleSalons().flatMap((s) => {
     const url = salonBookingUrl(s);
@@ -11,8 +10,7 @@ export function Finale() {
 
   return (
     <section id="finale" aria-labelledby="finale-title" className="relative bg-ink py-[clamp(6rem,14vw,12rem)]">
-      <HexLamps variant="overhead" />
-      <div className="container-x relative">
+      <div className="container-x">
         <div aria-hidden="true" data-led-line className="led-tube mb-[clamp(3rem,7vw,6rem)] h-[2px] w-full origin-left" />
         <h2 id="finale-title" data-reveal="lines" className="t-mega !text-[clamp(2.75rem,8.6vw,10rem)] [font-stretch:110%]">
           Czas na <br />
