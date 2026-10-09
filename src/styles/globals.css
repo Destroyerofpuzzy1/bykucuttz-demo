@@ -31,6 +31,34 @@
   color-scheme: dark;
 }
 
+/* Original CUTZ ACADEMY mark. The black JPEG fallback needs a white mount. */
+.academy-logo-mount { display: block; background: #fff; padding: 0.25rem 0.35rem; }
+.academy-logo-mount--native { background: transparent; padding: 0.25rem 0; }
+.nav-brands { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.academy-nav-link { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; }
+.academy-nav-link .academy-logo-mount { width: 100%; }
+@media (min-width: 1280px) { .nav-brands { gap: 1rem; } .academy-nav-link { width: 8rem; padding-left: 1rem; } }
+/* CUTZ ACADEMY navbar: Academy mark first and larger, smaller BYKUCUTZZ mark as the way back home */
+.academy-nav-main { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; flex-shrink: 0; }
+.academy-nav-main .academy-logo-mount { width: 100%; }
+.nav-home-link { display: flex; align-items: center; min-height: 2.75rem; width: 5.25rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; opacity: 0.85; transition: opacity 150ms; }
+.nav-home-link:hover { opacity: 1; }
+@media (min-width: 1280px) { .academy-nav-main { width: 8rem; } .nav-home-link { width: 6rem; padding-left: 1rem; } }
+
+/* Compact bridge from the homepage crew to the dedicated training page. */
+.academy-teaser { padding-block: 2rem 4rem; }
+.academy-teaser-inner { display: grid; background: var(--color-carbon); border-block: 1px solid var(--color-graphite); }
+.academy-teaser-photo { min-width: 0; }
+.academy-teaser-photo img { display: block; width: 100%; height: 15rem; object-fit: cover; object-position: 50% 35%; }
+.academy-teaser-copy { padding: clamp(1.5rem, 3vw, 3rem); align-self: center; }
+.academy-teaser-logo { width: 8rem; margin-bottom: 1rem; }
+.academy-teaser-copy h2 { font-size: clamp(1.6rem, 2.8vw, 2.5rem); line-height: 1.1; font-weight: 800; text-transform: uppercase; letter-spacing: -0.025em; }
+.academy-teaser-copy p { max-width: 60ch; color: var(--color-steel); margin-block: 1rem; }
+@media (min-width: 768px) {
+  .academy-teaser-inner { grid-template-columns: minmax(12rem, 17.5rem) 1fr; }
+  .academy-teaser-photo img { height: 100%; max-height: 26rem; }
+}
+
 /* ============ BASE ============ */
 @layer base {
   html {

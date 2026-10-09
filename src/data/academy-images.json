@@ -1,0 +1,83 @@
+{
+  "1": {
+    "src": "/images/academy/academy-01.webp",
+    "width": 1200,
+    "height": 1598
+  },
+  "2": {
+    "src": "/images/academy/academy-02.webp",
+    "width": 1200,
+    "height": 1200
+  },
+  "3": {
+    "src": "/images/academy/academy-03.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "4": {
+    "src": "/images/academy/academy-04.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "5": {
+    "src": "/images/academy/academy-05.webp",
+    "width": 1200,
+    "height": 1597
+  },
+  "6": {
+    "src": "/images/academy/academy-06.webp",
+    "width": 1200,
+    "height": 1248
+  },
+  "7": {
+    "src": "/images/academy/academy-07.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "8": {
+    "src": "/images/academy/academy-08.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "9": {
+    "src": "/images/academy/academy-09.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "10": {
+    "src": "/images/academy/academy-10.webp",
+    "width": 1200,
+    "height": 1588
+  },
+  "11": {
+    "src": "/images/academy/academy-11.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "12": {
+    "src": "/images/academy/academy-12.webp",
+    "width": 1200,
+    "height": 1600
+  },
+  "practice": {
+    "src": "/images/academy/practice.webp",
+    "width": 1600,
+    "height": 2133
+  },
+  "fade": {
+    "src": "/images/academy/fade.webp",
+    "width": 800,
+    "height": 1000
+  },
+  "shape": {
+    "src": "/images/academy/shape.webp",
+    "width": 800,
+    "height": 1000
+  },
+  "logo": {
+    "src": "/images/academy/logo.png",
+    "width": 1000,
+    "height": 304,
+    "native": true
+  }
+}

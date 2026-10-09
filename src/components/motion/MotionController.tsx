@@ -17,8 +17,10 @@ import { gsap, ScrollTrigger, SplitText, useGSAP, MQ, flicker } from "@/lib/anim
  *   data-parallax / data-speed  subtle depth, desktop only
  * Without `.js-motion` (reduced motion / no JS) nothing is hidden and nothing runs.
  */
-export function MotionController() {
+export function MotionController({ heroParallax = true }: { heroParallax?: boolean }) {
   useGSAP(() => {
+    // Standalone pages have no Loader to mark the motion controller as ready.
+    if (!heroParallax) window.__bkMotion = true;
     if (!document.documentElement.classList.contains("js-motion")) return;
     const mm = gsap.matchMedia();
     let cancelled = false;
@@ -172,7 +174,7 @@ export function MotionController() {
           );
         });
         // hero photo drifts slower than the page
-        gsap.to("[data-hero='media']", {
+        if (heroParallax) gsap.to("[data-hero='media']", {
           yPercent: 12,
           ease: "none",
           scrollTrigger: { trigger: "#start", start: "top top", end: "bottom top", scrub: true },

@@ -1,0 +1,37 @@
+{
+  "videos": [
+    {
+      "src": "/videos/academy/academy.mp4",
+      "poster": "/videos/academy/academy.webp",
+      "width": 720,
+      "height": 960,
+      "duration": 6.76
+    },
+    {
+      "src": "/videos/academy/academy2.mp4",
+      "poster": "/videos/academy/academy2.webp",
+      "width": 720,
+      "height": 960,
+      "duration": 10.48
+    },
+    {
+      "src": "/videos/academy/academy3.mp4",
+      "poster": "/videos/academy/academy3.webp",
+      "width": 720,
+      "height": 960,
+      "duration": 7.576923
+    },
+    {
+      "src": "/videos/academy/academy4.mp4",
+      "poster": "/videos/academy/academy4.webp",
+      "width": 720,
+      "height": 960,
+      "duration": 9.88
+    }
+  ],
+  "groupStill": {
+    "src": "/images/academy/group-practice.webp",
+    "width": 720,
+    "height": 540
+  }
+}
