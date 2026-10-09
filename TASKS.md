@@ -1,34 +1,36 @@
 # TASKS
 
-Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08 work (`feature/cinematic-intro-section`) is merged into `main` (PR #1, `19ea293`). Local and not pushed: Booksy counters on `feature/booksy-opinie-plus` (`e7f05c9`), CUTZ ACADEMY on `codex/cutz-academy` (`58d2f1a`), both merged on `preview/integracja` in the main checkout `C:\Users\lukas\Documents\bykucuttz-demo`, the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`). Heartbeat refinement: committed on `feature/booksy-heartbeat-enhancement` (based on `preview/integracja`), push of that branch approved; its history carries the Booksy and Academy commits as well.
+Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. Everything is in `main`: the 2026-10-08 work (`feature/cinematic-intro-section`) through PR #1 (`19ea293`), and through PR #2 (merge commit `7502eb5`, from `feature/booksy-heartbeat-enhancement`) the Booksy counters (`e7f05c9`), CUTZ ACADEMY (`58d2f1a`), their integration merge (`f1dd9e8`) and the heartbeat refinement (`3a118ad`). The main checkout `C:\Users\lukas\Documents\bykucuttz-demo` follows `main` again (local `main` fast-forwarded; doc branches start from it) and stays the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`). Production deployment: not confirmed.
 
-## Local integration preview (`preview/integracja`)
+## Local integration preview (`preview/integracja`), merged into `main`
 - [x] Backups of both worktrees (tracked diffs and untracked files, SHA-256 verified) outside the repository before any Git change.
 - [x] Local commits after `git diff --check`, file review and a secret/asset check: `e7f05c9` (Booksy) and `58d2f1a` (Academy: code, docs, optimized images, four clips; `assets-src` originals not tracked). Commit security review: no issues.
 - [x] `preview/integracja` from `feature/booksy-opinie-plus`, `codex/cutz-academy` merged into it. Conflicts only in `CHANGELOG_AI.md` and `TASKS.md`, resolved by hand (both entries kept); `MotionController.tsx` (`heroParallax` + `data-counted`), `globals.css` (Academy navbar/teaser classes + Booksy block), `PROJECT_CONTEXT.md` and the blueprint merged automatically and were checked.
 - [x] `AGENTS.md`: single preview checkout and multi-agent rules; `CLAUDE.md` points to it.
 - [x] Lint, build and browser checks of the integrated state at `http://localhost:3000` (homepage and `/cutz-academy`, 1440 and 390 px): both navbar variants, Booksy and the "5098+" heartbeat, hero/LED/HexGrid, Ekipa, both salons in the dev preview, Academy strip, clips and CTAs; no console errors, no horizontal overflow.
-- [x] Integration merge committed locally on `preview/integracja` (separately approved; no push).
-- [ ] Bring both features into `main` through separate pull requests (push not authorised yet). The second one needs the same `CHANGELOG_AI.md` / `TASKS.md` / `PROJECT_CONTEXT.md` merge as here. Afterwards switch the preview checkout to `main` and retire `preview/integracja`.
+- [x] Integration merge committed locally on `preview/integracja` (`f1dd9e8`, separately approved); it reached GitHub later in the history of `feature/booksy-heartbeat-enhancement`.
+- [x] Both features in `main`: not through separate pull requests as planned, but together with the heartbeat in PR #2 (merge commit `7502eb5`, 2026-10-09 09:40). `main` has exactly the tree tested on `3a118ad`.
+- [x] Preview checkout switched to `main`: local `main` fast-forwarded `f50dd1c` → `7502eb5` (no reset, stash, force or merge commit; `assets-src` originals untouched).
+- [ ] Docs sync after PR #2 on `docs/post-pr2-sync`: pull request into `main`, review, merge (not merged yet).
+- [ ] Retire the merged branches (`preview/integracja`, `feature/booksy-opinie-plus`, `codex/cutz-academy`, `feature/booksy-heartbeat-enhancement`, locally and on `origin` where they exist): awaiting approval; nothing deleted so far.
 - [ ] Port 3000: another local project ("Lead Finder", `node server/app.js`) used to listen on IPv4 `0.0.0.0:3000` next to Next.js on IPv6; it stopped during the integration (not by an agent), so `localhost` and `127.0.0.1` now both reach the BYKUCUTZZ preview. If Lead Finder is started again, give it another port.
-- [ ] Stop the Codex preview servers (3001: old production build, 3002: dev) once the integrated preview is accepted; remove the Codex worktree only after `codex/cutz-academy` is merged into `main`.
+- [ ] Stop the Codex preview servers (3001: old production build, 3002: dev) and remove the Codex worktree: possible now that `codex/cutz-academy` is in `main`, but only with the client's approval; not done.
 
-## Booksy heartbeat enhancement (`feature/booksy-heartbeat-enhancement`, from `preview/integracja` `f1dd9e8`), done, committed
+## Booksy heartbeat enhancement (`feature/booksy-heartbeat-enhancement`, from `preview/integracja` `f1dd9e8`), done, merged into `main` (PR #2)
 - [x] "5098+" beats clearly but calmly ("BAM BAM": 1.08 → 1.015 → 1.11 → 1, pause, 2.4 s) with a neon `#61ccf0` halo synced to each beat; starts after the count roll; static under reduced motion.
 - [x] Small cyan heart inline before "Dziękujemy za każde zaufanie.", beating in lockstep with "5098+" (same trigger, timing and keyframes, slightly less scale, glow flaring together); the text and everything else in the section stay still.
 - [x] Lint, build, `git diff --check`, browser tests at 1440/390/375 (dev preview and production build), incl. reduced motion, overflow and CLS.
-- [x] Committed with the client's approval (`feat: refine Booksy heartbeat and synchronized heart animation`); push of this branch approved.
-- [ ] Review, then merge into `preview/integracja` (the pull request target while that branch is the integration base). Into `main` only after the Booksy and Academy work has landed there; then this branch adds just the heartbeat commit (or rebase that single commit onto `main`). No merge or deployment so far.
+- [x] Committed with the client's approval as `3a118ad` (`feat: refine Booksy heartbeat and synchronized heart animation`) and pushed (no force); commit and push security reviews: no findings.
+- [x] Merged into `main` through PR #2 (merge commit `7502eb5`), together with the Booksy, Academy and integration commits in its history. No deployment.
 
-## Booksy counters (`feature/booksy-opinie-plus`), done, awaiting review
+## Booksy counters (`feature/booksy-opinie-plus`), done, merged into `main` (PR #2)
 - [x] Counters shown as confirmed minimums ("5098+", "5093+") in the hero, social proof, Opinie and Crew; the 5,0 rating, data values and `asOf` unchanged.
 - [x] The main review count "5098+" itself beats calmly after its roll (light scale + faint cyan glow, nothing else moves; the earlier heart icon was removed); "Dziękujemy za każde zaufanie." under the counter; static under reduced motion.
 - [x] Lint, build, `git diff --check`, browser tests at 1440/1280/1024/768/390/375 incl. reduced motion.
-- [x] Committed locally (`e7f05c9`); no push, merge into `main` or deployment.
-- [ ] Review and pull request into `main`.
+- [x] Committed (`e7f05c9`); in `main` through PR #2 (no separate pull request). No deployment.
 - [ ] Re-read the Booksy profile from time to time and update `site.stats` together with `asOf` (the "+" does not replace that date).
 
-## CUTZ ACADEMY: done locally, awaiting review
+## CUTZ ACADEMY: in `main` (PR #2), awaiting client review
 - [x] Read project documentation and Git state before changes; isolate from earlier untracked photos with user approval.
 - [x] Audit the initial 12 photos/logo JPEG and late-added practice photo/native transparent logo PNG; produce 13 WebP masters and an optimized native PNG without redrawing the supplied mark.
 - [x] Separate static `/cutz-academy`, own metadata, semantic headings, photo alt text, shared design tokens and GSAP reveals.
@@ -43,7 +45,7 @@ Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08
 - [x] "Szkolenia w praktyce": Fade Control / Shape Control cards with technique effects (fade mask, shape outline), four clips in one row, individual and group formats with photos of that format.
 - [x] Separate Academy navbar: route-based variant of the shared Header and mobile menu (Academy links, Instagram CTA, BYKUCUTZZ logo as the way home); homepage navbar and Booksy unchanged.
 - [x] Browser tests at 1440/768/390/375 on the dev server and a production build, incl. emulated `prefers-reduced-motion`.
-- [x] Committed locally (`58d2f1a`): code, docs, `public/images/academy`, `public/videos/academy`; no push, merge into `main` or deployment.
+- [x] Committed (`58d2f1a`): code, docs, `public/images/academy`, `public/videos/academy`; in `main` through PR #2 (no separate pull request). No deployment.
 - [ ] Client review of the page and logo treatment.
 - [ ] Confirm the use of the `cut4` / `cut6` haircut photos on the Fade / Shape Control cards.
 - [ ] Supply a real photo of a group class (the group format currently shows a still of `academy2.mp4`).
@@ -64,6 +66,7 @@ Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08
 
 ## Open decisions / follow-ups
 - [x] Review the branch and open a pull request into `main` (merged as PR #1, `19ea293`).
+- [ ] Production deployment: not confirmed. The repository has no hosting configuration and GitHub lists no deployments or commit statuses for `7502eb5`; whether a hosting service is connected outside the repository is unknown. Deploy only on the client's explicit instruction.
 - [ ] Photos `assets-src/cut4.jpeg`, `cut5.jpeg`, `cut6.jpeg` (not committed): `cut4` and `cut6` are cropped for the Academy programme cards (`public/images/academy/fade.webp`, `shape.webp`); `cut5` is unused.
 - [ ] Hero loader: keep "once per browser session" or play it on every visit (owner's call; not changed).
 - [ ] Next.js dev warnings when the page is opened scrolled down: `salon-01.webp` / `space-detail.webp` detected as LCP (pre-existing image settings, not changed).

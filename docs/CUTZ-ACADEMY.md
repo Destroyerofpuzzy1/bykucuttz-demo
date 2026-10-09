@@ -4,8 +4,9 @@ Implemented locally on 2026-10-09, branch `codex/cutz-academy`, based on
 `origin/main` (`19ea293`), in a separate Codex-managed worktree outside the main
 checkout. Committed locally as `58d2f1a`; merged with the Booksy counters on
 `preview/integracja` in the main checkout, the local preview at
-`http://localhost:3000/cutz-academy`. No push, merge into `main`, deployment, DNS or
-ENV change was made.
+`http://localhost:3000/cutz-academy`. Merged into `main` through PR #2 (merge commit
+`7502eb5`, 2026-10-09) together with the Booksy work. No deployment, DNS or ENV
+change was made; a production deployment has not been confirmed.
 
 ## Confirmed content and boundaries
 
