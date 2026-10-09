@@ -1,6 +1,6 @@
 # BYKUCUTZZ — Phase 1 Implementation Blueprint
 
-Prepared 2026-10-06. Research + direction only. Nothing in this document is implemented yet.
+Prepared 2026-10-06 as the original research/design proposal. The site is now implemented. Updated 2026-10-09: current state below; historical asset/research/planning sections remain a record of the original proposal, not a complete description of current code. Use `PROJECT_CONTEXT.md`, `TASKS.md` and current source as implementation authority.
 
 Design read: **brand landing page for young urban men (and some women) in Łódź choosing a barber, in an editorial streetwear-campaign language, built on black space, one wide grotesk family, real photography and one LED-line motion system. Conversion = Booksy.**
 Dials (taste skill): `DESIGN_VARIANCE 8 / MOTION_INTENSITY 6 / VISUAL_DENSITY 3`.
@@ -9,14 +9,12 @@ Dials (taste skill): `DESIGN_VARIANCE 8 / MOTION_INTENSITY 6 / VISUAL_DENSITY 3`
 
 ## 1. CURRENT PROJECT STATE
 
-**Stack:** none. Greenfield. The folder contains only 11 image assets in the root. No `package.json`, no git repo, no fonts, no code.
-Environment: Node 24.16, npm 11.13 (Windows).
+**Current stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind v4, Archivo via `next/font`, GSAP 3 with ScrollTrigger/SplitText and `@gsap/react`, Phosphor icons. Sharp/Potrace asset tooling. See `package.json` for actual versions and commands.
+**Current routes:** `/` (barbershop homepage), `/cutz-academy` (separate training page), `/polityka-prywatnosci`. Sources in `assets-src`, deployed derivatives in `public/images`, typed content in `src/data`, CSS in `src/styles/globals.css` plus scoped Academy CSS. The homepage intro/Ekipa/navbar changes were merged into `main` on 2026-10-09; Academy is local on `codex/cutz-academy`.
+**Academy architecture:** `src/app/cutz-academy/page.tsx`, `src/data/academy.ts` + `academy-images.json`, shared Header/Footer/MotionController, supplied `AcademyLogo`, dedicated asset pipeline. Hero with the post-training photo strip → "Szkolenia w praktyce" (Fade/Shape cards, four clips, formats) → brand/instructor confirmation → Instagram inquiries. Route-based Academy variant of the shared Header. Read `docs/CUTZ-ACADEMY.md` for the current audit and content sources. No training prices, durations, instructors or certificates are assumed.
+**SEO configuration:** no existing sitemap/robots route and no confirmed production domain (`site.url` is null). Academy has separate metadata; homepage metadata remains unchanged.
 
-**Relevant files:** the 11 assets (audited in §2).
-
-**Existing libraries:** none.
-
-**Recommended stack (to scaffold in Phase 2):**
+**Original stack recommendation (historical):**
 | Concern | Choice | Why |
 |---|---|---|
 | Framework | Next.js (App Router, TS), mostly Server Components | `next/image` responsive AVIF/WebP, `next/font` self-hosting, easy Vercel deploy |
@@ -331,6 +329,7 @@ Nav: **SALONY · CENNIK · EKIPA · ROBOTA · KONTAKT** + **UMÓW WIZYTĘ**. (No
 - **Layout:** desktop 3 columns (Salon 01, Salon 02 or "Godziny", Social/Booking). Mobile stacked. Map: link-out button, **no Google iframe** (performance + GDPR cookies). Optional later: a static monochrome map image.
 
 ### Global: Nav + mobile booking
+- **Academy addition (2026-10-09):** original CUTZ ACADEMY logo links to `/cutz-academy` in the desktop/mobile navbar and mobile menu. The supplied native white transparent PNG retains its scissors, type and texture and is shown directly on the dark header. Shared homepage links use `/#…` and remain valid from every route. Academy uses a solid header immediately; no homepage loader or sticky booking bar. Its own training CTAs use Instagram `@cutzzacademy`, independently of the shared salon booking action. Since the later 2026-10-09 rework the Header has a route-based Academy variant on `/cutz-academy` (Academy logo first, smaller BYKUCUTZZ logo home, START / SZKOLENIA / PRAKTYKA / ZAPISY, "Zapytaj o szkolenie"); the salon links and Booksy stay on the barbershop variant.
 - **Desktop nav:** 64 px, transparent over the hero, `--carbon` at 92% after the hero (solid, no blur). Logo compact left, links centre-right, cyan **UMÓW WIZYTĘ** right. **Always visible** (fixed to the top on desktop and mobile, in both scroll directions; the earlier hide-on-scroll-down was removed). Only the background changes, transparent → solid after the hero (GSAP ScrollTrigger, not a scroll listener). Anchor jumps land below it (`scroll-padding-top: var(--nav-h)`); z-index scale: nav 40 < sticky bar 45 < mobile menu 60 < loader 100.
 - **Mobile nav:** logo + "UMÓW" text button + menu (full-screen black sheet with large links, IG icon, address).
 - **Mobile sticky booking bar:** appears after the hero leaves the viewport, hidden over Salony panels (they have their own CTAs), Finale and the footer. One full-width cyan button, 56 px, with safe-area inset. With two salons: the first tap opens a 2-option bottom sheet ("01 Bałuty" / "02 ..."); the choice is remembered (localStorage), so the next tap goes straight to that salon's Booksy.
@@ -428,6 +427,8 @@ Image is the only filled field (`salon2.png`, pending confirmation).
 ---
 
 ## 12. COMPONENT ARCHITECTURE
+
+The tree below is the **original planned architecture**, not a literal file inventory. The implementation uses `src/data` rather than `src/content`, `src/styles/globals.css`, `Header` rather than `Nav`, and `scripts/build-assets.mjs`. Current routes include `src/app/cutz-academy/page.tsx` and `src/app/polityka-prywatnosci/page.tsx`. Academy uses `scripts/build-academy-assets.mjs` and a separate image manifest; full current structure and differences are in `PROJECT_CONTEXT.md` and `docs/CUTZ-ACADEMY.md`.
 
 ```
 src/

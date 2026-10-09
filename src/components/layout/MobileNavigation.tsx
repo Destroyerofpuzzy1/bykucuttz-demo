@@ -3,13 +3,17 @@
 import { useEffect, useRef } from "react";
 import { InstagramLogo, X } from "@phosphor-icons/react";
 import { Logo } from "@/components/brand/Logo";
+import { AcademyLogo } from "@/components/brand/AcademyLogo";
+import { AcademyCta } from "@/components/academy/AcademyCta";
 import { BookingButton } from "@/components/ui/Button";
 import { navLinks, site } from "@/data/site";
+import { academy as academyData, academyNavLinks } from "@/data/academy";
 
-type Props = { open: boolean; onClose: () => void; address: string };
+/** `academy`: the CUTZ ACADEMY variant (Academy links, Academy Instagram, training inquiry CTA). */
+type Props = { open: boolean; onClose: () => void; address: string; academy?: boolean };
 
 /** Full-screen menu (<1024px). Focus-trapped, Escape and every link close it, background scroll locked. */
-export function MobileNavigation({ open, onClose, address }: Props) {
+export function MobileNavigation({ open, onClose, address, academy = false }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,7 +55,25 @@ export function MobileNavigation({ open, onClose, address }: Props) {
       className="fixed inset-0 z-[var(--z-menu)] flex flex-col overflow-y-auto bg-ink lg:hidden"
     >
       <div className="container-x flex h-[var(--nav-h)] shrink-0 items-center justify-between">
-        <Logo decorative className="w-[6.75rem]" />
+        {academy ? (
+          <div className="nav-brands">
+            <a href={academyData.href} onClick={onClose} aria-label="CUTZ ACADEMY, szkolenia barberskie" aria-current="page" className="academy-nav-main">
+              <AcademyLogo decorative />
+            </a>
+            <a href="/" onClick={onClose} aria-label="BYKUCUTZZ, strona główna" className="nav-home-link">
+              <Logo decorative className="w-full" />
+            </a>
+          </div>
+        ) : (
+          <div className="nav-brands">
+            <a href="/" onClick={onClose} className="-ml-1 block p-1" aria-label="BYKUCUTZZ, strona główna">
+              <Logo decorative className="w-[6.75rem]" />
+            </a>
+            <a href={academyData.href} onClick={onClose} aria-label="CUTZ ACADEMY, szkolenia barberskie" className="academy-nav-link">
+              <AcademyLogo decorative />
+            </a>
+          </div>
+        )}
         <button type="button" className="-mr-2 grid h-12 w-12 place-items-center" onClick={onClose}>
           <span className="sr-only">Zamknij menu</span>
           <X size={28} weight="light" aria-hidden="true" />
@@ -59,7 +81,7 @@ export function MobileNavigation({ open, onClose, address }: Props) {
       </div>
 
       <ul className="container-x mt-4 flex flex-col">
-        {navLinks.map((l) => (
+        {(academy ? academyNavLinks : navLinks).map((l) => (
           <li key={l.href} className="border-b border-graphite">
             <a
               href={l.href}
@@ -73,17 +95,17 @@ export function MobileNavigation({ open, onClose, address }: Props) {
       </ul>
 
       <div className="container-x mt-auto flex flex-col gap-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-10">
-        <p className="t-meta text-steel">{address}</p>
+        <p className="t-meta text-steel">{academy ? `Szkolenia barberskie · ${academyData.city}` : address}</p>
         <a
-          href={site.socials.instagram.url}
+          href={academy ? academyData.instagram.url : site.socials.instagram.url}
           target="_blank"
           rel="noopener"
           className="inline-flex min-h-12 items-center gap-3 font-semibold"
         >
           <InstagramLogo size={22} weight="light" aria-hidden="true" />
-          {site.socials.instagram.handle}
+          {academy ? academyData.instagram.handle : site.socials.instagram.handle}
         </a>
-        <BookingButton source="menu" className="w-full" />
+        {academy ? <AcademyCta source="menu" className="w-full" /> : <BookingButton source="menu" className="w-full" />}
       </div>
     </div>
   );
