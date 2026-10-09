@@ -146,6 +146,8 @@ export function MotionController() {
             duration: 1.8,
             ease: "power2.out",
             onUpdate: render,
+            // CSS can follow up once the number has arrived (e.g. the review count's heartbeat)
+            onComplete: () => el.setAttribute("data-counted", ""),
             scrollTrigger: { trigger: el, start: "top 85%", once: true },
           });
           counted.push([el, to]);

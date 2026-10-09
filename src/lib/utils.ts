@@ -12,6 +12,8 @@ export function img(src: keyof typeof manifest, alt: string): Img {
 }
 
 export const formatRating = (n: number) => n.toFixed(1).replace(".", ",");
+/** Booksy counters only grow: the stored number is a confirmed minimum, shown as "5098+". Never for the rating. */
+export const formatAtLeast = (n: number) => `${n}+`;
 export const zl = (n: number) => `${n} zł`;
 export const formatDatePl = (iso: string) =>
   new Date(iso).toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" });

@@ -2,7 +2,7 @@ import { getImageProps } from "next/image";
 import { site } from "@/data/site";
 import { visibleSalons, show } from "@/data/salons";
 import { BookingButton } from "@/components/ui/Button";
-import { formatRating, img } from "@/lib/utils";
+import { formatAtLeast, formatRating, img } from "@/lib/utils";
 
 const desktop = img("/images/salon/hero-interior.webp", "");
 const mobile = img("/images/salon/chair-portrait.webp", "");
@@ -60,7 +60,7 @@ export function Hero() {
                 {formatRating(site.stats.rating)}
                 <span className="ml-2 text-sm font-semibold text-steel [font-stretch:100%]">na Booksy</span>
               </span>
-              <span className="t-meta text-bone">{site.stats.reviews} opinii</span>
+              <span className="t-meta text-bone">{formatAtLeast(site.stats.reviews)} opinii</span>
             </p>
             <a href="#salony" className="t-meta group inline-flex min-h-11 items-center gap-3 text-bone">
               <span>{signal}</span>

@@ -549,6 +549,53 @@ html.no-loader .loader {
   }
 }
 
+/* ============ SOCIAL PROOF (Booksy counters) ============
+   "+" after a counter = confirmed minimum (the profile keeps growing); smaller, raised, CTA cyan.
+   Once the main review count has rolled to today's number ([data-counted], MotionController) it
+   beats like a calm pulse: two soft beats (a light scale from its left edge + a faint cyan glow),
+   then a rest. Only this number moves; static under reduced motion. */
+.stat-plus {
+  display: inline-block;
+  margin-left: 0.04em;
+  font-size: 0.5em;
+  line-height: 1;
+  vertical-align: 0.78em;
+  color: var(--color-cyan);
+}
+.review-thanks {
+  margin-top: 1.25rem;
+  color: color-mix(in srgb, var(--color-bone) 82%, transparent);
+}
+.review-pulse {
+  display: inline-block;
+  transform-origin: 0% 70%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .review-pulse:has([data-counted]) {
+    animation: review-heartbeat 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+@keyframes review-heartbeat {
+  0%,
+  38%,
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 0 rgb(97 204 240 / 0);
+  }
+  9% {
+    transform: scale(1.026);
+    text-shadow: 0 0 0.14em rgb(97 204 240 / 0.34);
+  }
+  17% {
+    transform: scale(1.004);
+    text-shadow: 0 0 0.06em rgb(97 204 240 / 0.12);
+  }
+  26% {
+    transform: scale(1.015);
+    text-shadow: 0 0 0.1em rgb(97 204 240 / 0.24);
+  }
+}
+
 /* ============ MARQUEE ============ */
 .marquee-row {
   overflow: hidden; /* the moving track is clipped by its own row, never by the page */

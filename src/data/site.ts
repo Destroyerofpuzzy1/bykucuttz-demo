@@ -17,7 +17,8 @@ export const site = {
   },
   // TO PROVIDE: Booksy hides the phone number behind login. Never fill from third-party directories.
   phone: null as null | { display: string; tel: string },
-  // Booksy profile, read 2026-10-06. Dynamic: update here only.
+  // Booksy profile, read 2026-10-06. Dynamic: update here only. The counters (reviews, fiveStar) are shown
+  // as confirmed minimums with a trailing "+" (formatAtLeast); the rating is shown as is. Keep asOf current.
   stats: {
     rating: 5.0,
     reviews: 5098,

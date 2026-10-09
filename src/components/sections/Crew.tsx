@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "@/data/site";
-import { img } from "@/lib/utils";
+import { formatAtLeast, img } from "@/lib/utils";
 
 const crew = img("/images/social/crew-4000.webp", "Ekipa BYKUCUTZZ przed salonem, z balonami w kształcie liczby 4000");
 
@@ -14,7 +14,7 @@ export function Crew() {
             <Image src={crew.src} alt={crew.alt} fill sizes="(min-width:768px) 32rem, 100vw" quality={80} className="photo-soft object-cover" />
           </div>
           <figcaption className="t-meta mt-3 max-w-[32rem] text-steel">
-            {site.milestone} opinii. Świętowaliśmy. Dziś jest ich {site.stats.reviews}.
+            {site.milestone} opinii. Świętowaliśmy. Dziś jest ich {formatAtLeast(site.stats.reviews)}.
           </figcaption>
         </figure>
         <div className="md:col-span-6 lg:col-span-5 lg:col-start-8 md:pb-[8%]">

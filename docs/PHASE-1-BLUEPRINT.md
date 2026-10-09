@@ -307,6 +307,7 @@ Nav: **SALONY · CENNIK · EKIPA · ROBOTA · KONTAKT** + **UMÓW WIZYTĘ**. (No
 - **Content (sequence):** "5098" (mega) + "opinii na Booksy." → "5,0" + "5093 razy pięć gwiazdek." → "JEDNA ZASADA. / JAKOŚĆ PONAD ILOŚĆ." Link: "Sprawdź na Booksy".
 - **Layout:** black, type only. Each beat replaces the previous one in place (desktop pin, ≤ 150vh total).
 - **Mobile:** no pin. The three beats stack vertically with large spacing.
+- **Implementation note (2026-10-09):** counters are shown as confirmed minimums ("5098+", "5093+", also in the hero, Opinie and Crew), the rating stays "5,0"; after its roll the review count itself beats calmly (light scale + faint cyan glow), with "Dziękujemy za każde zaufanie." under the counter. Current behaviour: `PROJECT_CONTEXT.md`.
 
 ### 9. Opinie
 - **Purpose:** turn the number into voices. Real, short, named.

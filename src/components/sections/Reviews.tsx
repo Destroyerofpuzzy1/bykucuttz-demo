@@ -5,7 +5,7 @@ import { Star } from "@phosphor-icons/react";
 import { reviews, type Review } from "@/data/reviews";
 import { atBarber } from "@/data/team";
 import { site } from "@/data/site";
-import { formatRating } from "@/lib/utils";
+import { formatAtLeast, formatRating } from "@/lib/utils";
 
 const rowA = reviews.filter((_, i) => i % 2 === 0);
 const rowB = reviews.filter((_, i) => i % 2 === 1);
@@ -50,7 +50,7 @@ export function Reviews() {
           <p className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Stars className="text-[clamp(1.5rem,2.4vw,2.25rem)]" />
             <span className="t-meta text-bone">
-              {formatRating(site.stats.rating)} na Booksy, {site.stats.reviews} opinii
+              {formatRating(site.stats.rating)} na Booksy, {formatAtLeast(site.stats.reviews)} opinii
             </span>
           </p>
           <h2 id="opinie-title" data-reveal="lines" className="t-display mt-5">
