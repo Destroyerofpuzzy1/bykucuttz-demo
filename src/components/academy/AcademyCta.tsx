@@ -1,7 +1,7 @@
 import { academy } from "@/data/academy";
 import { cn } from "@/lib/utils";
 
-type Source = "hero" | "contact" | "nav" | "menu";
+type Source = "hero" | "nav" | "menu";
 
 /** Every training inquiry: the confirmed Academy channel (Instagram), never the Booksy salon booking. */
 export function AcademyCta({ source, compact = false, className }: { source: Source; compact?: boolean; className?: string }) {

@@ -10,19 +10,18 @@ type Engine = { step: (dir: 1 | -1) => void; pause: (on: boolean) => void };
 
 /**
  * Hero strip of post-training photos, the page's one photo carousel. With motion (`.js-motion`) the
- * photos open one after another, then the strip drifts on its own in an endless loop: copies of the
+ * photos open briefly together, then the strip drifts on its own in an endless loop: copies of the
  * set (hidden from assistive tech) fill any screen width and the track wraps by one set width, so
  * there is never a jump back. The speed is constant; hovering does not change it. Dragging holds the
  * drift and moves the strip 1:1 (no inertia after release); after a drag or an arrow glide the drift
  * eases back in from standstill. It stops while its controls or the strip have keyboard focus or via
  * the pause button (WCAG 2.2.2). Without motion (reduced motion / no JS) it is a native scroll strip:
  * touch, keyboard and the arrows still work, nothing moves on its own.
- * `lead` (hero copy and CTA) shares the row above the strip with the controls.
+ * Controls sit below the photographs, aligned right, without covering the participants.
  */
-export function AcademyGallery({ children, count, label, lead }: { children: ReactNode; count: number; label: string; lead?: ReactNode }) {
+export function AcademyGallery({ children, count, label }: { children: ReactNode; count: number; label: string }) {
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
-  const bar = useRef<HTMLDivElement>(null);
   const controls = useRef<HTMLDivElement>(null);
   const engine = useRef<Engine | null>(null);
   const [loop, setLoop] = useState(false);
@@ -95,7 +94,7 @@ export function AcademyGallery({ children, count, label, lead }: { children: Rea
       const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
       period = set.offsetWidth + gap;
       starts = Array.from(set.children, (item) => (item as HTMLElement).offsetLeft);
-      edge = bar.current ? parseFloat(getComputedStyle(bar.current).paddingLeft) || 0 : 0;
+      edge = panel.parentElement ? parseFloat(getComputedStyle(panel.parentElement).paddingLeft) || 0 : 0;
       setCopies(Math.max(2, Math.ceil(view.clientWidth / period) + 1));
     };
     const render = () => {
@@ -152,8 +151,7 @@ export function AcademyGallery({ children, count, label, lead }: { children: Rea
       if (best !== null) glideTo(base + best - line, 0.85, "power3.inOut");
     };
 
-    // entrance once the type is ready (the heading reveals at the same moment): the photos on screen
-    // open from the bottom one after another and settle, then the drift eases in
+    // Short simultaneous entrance, then the unchanged drift eases in.
     const enter = () => {
       if (cancelled) return;
       const frames = Array.from(row.querySelectorAll<HTMLElement>(".academy-gallery-frame"));
@@ -172,9 +170,9 @@ export function AcademyGallery({ children, count, label, lead }: { children: Rea
         settle();
       };
       entrance = gsap
-        .timeline({ delay: 0.25, onComplete: done })
-        .fromTo(shown, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "expo.inOut", stagger: 0.09 }, 0)
-        .fromTo(photos, { scale: 1.18 }, { scale: 1, duration: 1.5, ease: "expo.out", stagger: 0.09 }, 0.15);
+        .timeline({ onComplete: done })
+        .fromTo(shown, { clipPath: "inset(12% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power2.out" }, 0)
+        .fromTo(photos, { scale: 1.03 }, { scale: 1, duration: 0.4, ease: "power2.out" }, 0);
     };
 
     const onDown = (event: PointerEvent) => {
@@ -305,29 +303,6 @@ export function AcademyGallery({ children, count, label, lead }: { children: Rea
 
   return (
     <div className="academy-strip">
-      <div ref={bar} className="academy-strip-bar container-x">
-        {lead}
-        <div ref={controls} className="academy-gallery-controls" role="group" aria-label="Sterowanie zdjęciami" data-reveal="rise">
-          <p className="academy-strip-count t-meta" aria-live={loop ? "off" : "polite"} aria-atomic="true">
-            <span className="text-cyan">Po szkoleniu</span> {pad(position.index + 1)} / {pad(count)}
-          </p>
-          {/* rendered from the start (CSS hides it without motion), so nothing shifts on hydration */}
-          <button
-            type="button"
-            className="academy-gallery-arrow academy-gallery-pause"
-            aria-label={paused ? "Wznów przewijanie zdjęć" : "Zatrzymaj przewijanie zdjęć"}
-            onClick={() => engine.current?.pause(!paused)}
-          >
-            {paused ? <Play size={16} weight="fill" aria-hidden="true" /> : <Pause size={16} weight="fill" aria-hidden="true" />}
-          </button>
-          <button type="button" className="academy-gallery-arrow" aria-label="Poprzednie zdjęcie" aria-controls="academy-gallery-track" disabled={!loop && position.start} onClick={() => go(-1)}>
-            <span aria-hidden="true">←</span>
-          </button>
-          <button type="button" className="academy-gallery-arrow" aria-label="Następne zdjęcie" aria-controls="academy-gallery-track" disabled={!loop && position.end} onClick={() => go(1)}>
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
       <p id="academy-gallery-hint" className="sr-only">
         {loop ? "Zdjęcia przesuwają się same. Przeciągnij lub użyj klawiszy strzałek." : "Przesuń lub użyj klawiszy strzałek."}
       </p>
@@ -349,6 +324,28 @@ export function AcademyGallery({ children, count, label, lead }: { children: Rea
               {children}
             </ul>
           ))}
+        </div>
+      </div>
+      <div className="academy-gallery-footer container-x">
+        <div ref={controls} className="academy-gallery-controls" role="group" aria-label="Sterowanie zdjęciami">
+          <p className="academy-strip-count t-meta" aria-live={loop ? "off" : "polite"} aria-atomic="true">
+            <span className="text-cyan">Po szkoleniu</span> {pad(position.index + 1)} / {pad(count)}
+          </p>
+          {/* rendered from the start (CSS hides it without motion), so nothing shifts on hydration */}
+          <button
+            type="button"
+            className="academy-gallery-arrow academy-gallery-pause"
+            aria-label={paused ? "Wznów przewijanie zdjęć" : "Zatrzymaj przewijanie zdjęć"}
+            onClick={() => engine.current?.pause(!paused)}
+          >
+            {paused ? <Play size={16} weight="fill" aria-hidden="true" /> : <Pause size={16} weight="fill" aria-hidden="true" />}
+          </button>
+          <button type="button" className="academy-gallery-arrow" aria-label="Poprzednie zdjęcie" aria-controls="academy-gallery-track" disabled={!loop && position.start} onClick={() => go(-1)}>
+            <span aria-hidden="true">←</span>
+          </button>
+          <button type="button" className="academy-gallery-arrow" aria-label="Następne zdjęcie" aria-controls="academy-gallery-track" disabled={!loop && position.end} onClick={() => go(1)}>
+            <span aria-hidden="true">→</span>
+          </button>
         </div>
       </div>
     </div>

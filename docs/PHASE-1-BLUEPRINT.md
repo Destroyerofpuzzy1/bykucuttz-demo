@@ -11,7 +11,9 @@ Dials (taste skill): `DESIGN_VARIANCE 8 / MOTION_INTENSITY 6 / VISUAL_DENSITY 3`
 
 **Current stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind v4, Archivo via `next/font`, GSAP 3 with ScrollTrigger/SplitText and `@gsap/react`, Phosphor icons. Sharp/Potrace asset tooling. See `package.json` for actual versions and commands.
 **Current routes:** `/` (barbershop homepage), `/cutz-academy` (separate training page), `/polityka-prywatnosci`. Sources in `assets-src`, deployed derivatives in `public/images`, typed content in `src/data`, CSS in `src/styles/globals.css` plus scoped Academy CSS. The homepage intro/Ekipa/navbar changes were merged into `main` on 2026-10-08 (PR #1, `19ea293`); Academy and the Booksy counters followed on 2026-10-09 (PR #2, `7502eb5`).
-**Academy architecture:** `src/app/cutz-academy/page.tsx`, `src/data/academy.ts` + `academy-images.json`, shared Header/Footer/MotionController, supplied `AcademyLogo`, dedicated asset pipeline. Hero with the post-training photo strip → "Szkolenia w praktyce" (Fade/Shape cards, four clips, formats) → brand/instructor confirmation → Instagram inquiries. Route-based Academy variant of the shared Header. Read `docs/CUTZ-ACADEMY.md` for the current audit and content sources. No training prices, durations, instructors or certificates are assumed.
+**Academy architecture:** src/app/cutz-academy/page.tsx, typed Academy data, shared Header/Footer/MotionController, supplied AcademyLogo, dedicated asset pipeline. Current local integration at localhost:3000: centred "Technika buduje przewagę." → logo/caption/description/Instagram CTA → full-width participant strip with controls below/right → trainings (plain Fade/Shape photos, four clips, formats) → brand/instructor confirmation → Footer. Quick Academy reveals remain independent of the static homepage fittings; final duplicate CTA removed, #zapisy points to the hero. Local, uncommitted on feature/hex-3d-backgrounds. See docs/CUTZ-ACADEMY.md; no business details are assumed.
+**Current decorative system (2026-10-09):** the industrial continuation of the existing HexLamps/NeonSign uses steel chains, a framed sign with the original logo, a small clipper/shears rail at Cennik, a partial hex wall at SocialProof and a ceiling panel over Finale. All are static server-rendered SVG; the earlier corner panel/parallax/flickering sign are superseded. Hero, Manifest HexGrid and Academy are unchanged. See `docs/INDUSTRIAL-VISUAL-SYSTEM.md`. The design proposal below remains historical.
+
 **SEO configuration:** no existing sitemap/robots route and no confirmed production domain (`site.url` is null). Academy has separate metadata; homepage metadata remains unchanged.
 
 **Original stack recommendation (historical):**
@@ -129,6 +131,7 @@ Concrete rules:
 2. **Type carries sections.** At least four sections are type-first (Manifest, Proof, Finale, Team). No section uses a card.
 3. **LED line = the one graphic device.** 1.5 px white (`#F4FAFF`) strokes, hex-derived angles (60° / 120°). The lines are **always traced from real photo geometry** (hero ceiling, detail-bg ceiling) or are the straight continuation of such a trace. Never random decoration.
    **One deliberate exception, kept separate:** the Manifest background is a **decorative procedural honeycomb** (`HexGrid`, generated in code, not a trace and not built from `led-traces.json`). It only lives behind the Manifest and the salons intro, in the CTA cyan. The photo-traced LEDs (loader/hero, Przestrzeń) and their data stay untouched and remain the brand's real-ceiling device.
+   **Second exception (2026-10-09, at the client's request):** `HexLampCeiling`, decorative ceiling panels of hexagonal lamps (a frame of white `--led` tubes holding a honeycomb, as fitted over the chairs) drawn in perspective with a soft cool glow. Accents only, beside the Cennik heading and above the Finale tube; never a full-page pattern, never cyan. Current state: `PROJECT_CONTEXT.md`.
 4. **Cyan is identity, not UI chrome.** It appears in: the logo extrusion, the primary booking button, the LED "ignition pulse", focus rings and the active state in Pricing. Max ~5% of any viewport.
 5. **Photography roles:** generated interiors = atmosphere (big, dark, cropped); real cuts = proof (sharp, never filtered beyond a slight level match); crew = humanity (warm, untreated).
 6. **Shape lock:** radius 0 everywhere. Sharp rectangles, like the LED tubes. No pills, no shadows, no blur panels.
@@ -271,6 +274,7 @@ Nav: **SALONY · CENNIK · EKIPA · ROBOTA · KONTAKT** + **UMÓW WIZYTĘ**. (No
 - **Layout (desktop):** left 7 columns = editorial menu. Group names in `title`, rows = name ... duration ... price (tabular, right-aligned, one hairline per group, not per row). Right 5 columns = **a sticky image slot showing real work for the focused group**: Strzyżenie → `cut1`, Combo → `cut2`, Broda → `cut2` (beard crop), Junior → `cut 3`, Design row → `design`. The slot changes on hover/focus of a group (clip wipe), linking price to proof.
 - **CTA:** primary at the end of the menu + Booksy link. Each row is **not** a button (avoids 19 CTAs).
 - **Mobile:** groups as stacked blocks, a small 4:5 work image under each group heading, both price columns kept (it fits: "100 / 120 zł"). "Pełny cennik na Booksy" and the CTA follow.
+- **Implementation note (2026-10-09):** built as a two-column text menu without the image slot; a lamp panel (`HexLampCeiling`, corner placement) hangs in the empty top-right corner beside the heading and fades out before the type.
 
 ### 5. Przestrzeń
 - **Purpose:** desire for the place itself. **Learn:** this is a different kind of shop. **Next:** meet who works here.
@@ -323,6 +327,7 @@ Nav: **SALONY · CENNIK · EKIPA · ROBOTA · KONTAKT** + **UMÓW WIZYTĘ**. (No
 - **Purpose:** remove everything except the decision.
 - **Content:** "CZAS NA / DOBRE CIĘCIE." + **UMÓW WIZYTĘ** (large). With two published salons, the button is replaced by two buttons: "Bałuty, Drewnowska" and "[Salon 02 district]".
 - **Layout:** near-fullscreen black. The LED line from the top of the page returns as a single horizontal tube above the headline and "ignites" when the section enters (bookending the loader).
+- **Implementation note (2026-10-09):** a wide lamp panel (`HexLampCeiling`, overhead placement) hangs in the free band above the tube, receding toward it; the tube, headline and CTA are unchanged.
 - **Mobile:** same, full-width button(s). The sticky bar hides here (no duplicate).
 
 ### 12. Kontakt + footer

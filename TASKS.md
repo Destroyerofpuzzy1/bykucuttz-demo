@@ -1,6 +1,38 @@
 # TASKS
 
-Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. Everything is in `main`: the 2026-10-08 work (`feature/cinematic-intro-section`) through PR #1 (`19ea293`), and through PR #2 (merge commit `7502eb5`, from `feature/booksy-heartbeat-enhancement`) the Booksy counters (`e7f05c9`), CUTZ ACADEMY (`58d2f1a`), their integration merge (`f1dd9e8`) and the heartbeat refinement (`3a118ad`). The main checkout `C:\Users\lukas\Documents\bykucuttz-demo` follows `main` again (local `main` fast-forwarded; doc branches start from it) and stays the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`). Production deployment: not confirmed.
+Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. Integrated in `main`: the 2026-10-08 work (`feature/cinematic-intro-section`) through PR #1 (`19ea293`), and through PR #2 (merge commit `7502eb5`, from `feature/booksy-heartbeat-enhancement`) the Booksy counters (`e7f05c9`), CUTZ ACADEMY (`58d2f1a`), their integration merge (`f1dd9e8`) and the heartbeat refinement (`3a118ad`). The main checkout `C:\Users\lukas\Documents\bykucuttz-demo` currently uses `feature/hex-3d-backgrounds` (`9a87c6e`) and stays the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`). Production deployment: not confirmed. Claude's continued homepage work and the combined Academy hero/photo cleanup are included in the client-authorised feature commit (commit and push requested on 2026-10-09; no merge or deployment).
+
+## Industrial visual system: local continuation of Claude's work
+- [x] Check Git/docs and idle project activity; create and verify an additional backup outside the repository.
+- [x] Develop and visually inspect one representative scene first: real logo, steel sign frame, linked chains, mounting rail and rear hex lamp.
+- [x] Extend the existing projected lamps with metal housings; keep wall/ceiling compositions different and static.
+- [x] Add a clipper and shears in the Cennik header; keep prices and copy clear, including tablet/mobile.
+- [x] Remove sign flicker, decorative parallax and obsolete styles/variant; retain Academy, Hero, HexGrid, Booksy/heartbeat and original assets.
+- [x] Lint/build/diff check and responsive regression checks; repair the reproduced deep-scroll GSAP initialization error. Results and reduced-motion testing limits: docs/INDUSTRIAL-VISUAL-SYSTEM.md.
+- [ ] Client visual review. Commit and push explicitly authorised on 2026-10-09; branch merge and deployment remain outside scope.
+
+## CUTZ ACADEMY: combined local preview on port 3000
+- [x] Client approved local integration without Git merge, branch switch or commit; both worktrees checked and backed up (52 SHA-256 verified files, including 25 untracked).
+- [x] Integrate centred hero, new heading, logo/caption/copy/CTA, full-width strip with controls below/right, quick reveals and removal of the final CTA. #zapisy targets the hero.
+- [x] Preserve clean Fade/Shape photos, accurate alt text, all Claude homepage source and existing data-neon code.
+- [x] Lint, build, diff check and responsive/browser verification; reduced-motion boot/controller test plus code review, without browser preference emulation.
+- [x] Reconcile current docs in both checkouts and retain all historical entries. Full approved version at http://localhost:3000/cutz-academy; Codex source at 3003 unchanged.
+- [ ] Client review, followed by separately authorised Git operations/deployment if requested.
+
+## CUTZ ACADEMY: plain Fade Control / Shape Control photos, done locally
+- [x] Read the project documentation and Git state; verify that port 3000 serves the main checkout. Preserve existing uncommitted homepage changes and separate worktrees.
+- [x] Replace the Fade duplicate-photo/mask/line and Shape SVG contour/guides/nodes with one plain Next Image per card; remove dedicated GSAP hooks and drawing CSS, including hover and reduced-motion exceptions.
+- [x] Keep the same assets, crop, card layout, visible copy, links and other sections; update only Shape's alternative text to match the clean photo.
+- [x] Lint, build, `git diff --check`; browser checks at 1440/768/390/375 px, both photos loaded, no overlays, image masks/filters, horizontal overflow or console errors.
+- [x] Update `PROJECT_CONTEXT.md`, `docs/CUTZ-ACADEMY.md` and `CHANGELOG_AI.md`. Changes visible at `http://localhost:3000/cutz-academy`; server not restarted, ENV unchanged. No commit or push.
+
+## Hex lamp ceiling accents (`feature/hex-3d-backgrounds`), done locally, not committed
+- [x] Homepage assessed at 1440: Cennik (long text menu) and Finale (empty right half, free band above the LED tube) were the flattest black areas; Opinie (marquee), Kontakt (right after Finale) and the photo, HexGrid, Ekipa and heartbeat sections left alone; Academy untouched.
+- [x] `HexLampCeiling`: perspective lamp panel modelled on the salon ceiling (frame + honeycomb of white tubes, connector gaps, tubes tapering and dimming with distance, soft cool glow), server-rendered SVG, placements `corner` and `overhead`, slight desktop parallax via `data-speed`.
+- [x] Cennik: panel in the top-right corner beside the heading; Finale: wide panel above the LED tube. Hero, HexGrid, Academy, navbars, heartbeat, Ekipa and the CTAs unchanged.
+- [x] `npm run lint`, `npm run build`, `git diff --check`; headless Chrome at 1440/768/390/375 and with reduced motion: no horizontal overflow, no console errors (only the known dev LCP warnings), lamps clear of the text, parallax desktop-only.
+- [ ] Client review of the look (glow strength, panel size, the two placements).
+- [ ] Commit and pull request into `main` (not authorised yet).
 
 ## Local integration preview (`preview/integracja`), merged into `main`
 - [x] Backups of both worktrees (tracked diffs and untracked files, SHA-256 verified) outside the repository before any Git change.

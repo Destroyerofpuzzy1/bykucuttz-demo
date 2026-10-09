@@ -11,6 +11,7 @@ import { gsap, ScrollTrigger, SplitText, useGSAP, MQ, flicker } from "@/lib/anim
  *   data-reveal="fade"   short rise + fade
  *   data-reveal="clip"   image opens from the bottom, photo settles 1.12 -> 1
  *   data-reveal="rise"   quick staggered rise out of a blur for elements entering together (team hexagons)
+ *   data-reveal="academy-hero" short whole-element entrance only in the Academy hero
  *   data-led-draw        traced LED strokes ignite (draw + tube flicker)
  *   data-led-scrub       vertical LED tube grows with scroll (manifest -> salons)
  *   data-led-line        horizontal LED tube ignites once (finale)
@@ -28,6 +29,12 @@ export function MotionController({ heroParallax = true }: { heroParallax?: boole
     const setup = () => {
       if (cancelled) return;
       mm.add(MQ.motion, () => {
+        gsap.utils.toArray<HTMLElement>('[data-reveal="academy-hero"]').forEach((el) => {
+          gsap.fromTo(el, { autoAlpha: 0, y: 8 }, {
+            autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 98%", once: true },
+          });
+        });
         const maskLines = (el: HTMLElement, reveal: (lines: Element[]) => gsap.core.Tween, exact = false) =>
           SplitText.create(el, {
             type: "lines",
@@ -103,6 +110,8 @@ export function MotionController({ heroParallax = true }: { heroParallax?: boole
           const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 88%", once: true } });
           tl.fromTo(el, { autoAlpha: 1, clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.25, ease: "expo.inOut" });
           if (img) tl.fromTo(img, { scale: 1.14 }, { scale: 1, duration: 1.6, ease: "expo.out" }, 0.1);
+          // Resolve the completed timeline before later triggers refresh it at a restored scroll position.
+          tl.scrollTrigger?.refresh();
         });
 
         // portraits (team hexagons): the ones entering together rise out of a blur on a quick stagger
@@ -121,6 +130,7 @@ export function MotionController({ heroParallax = true }: { heroParallax?: boole
           const paths = svg.querySelectorAll(".led-path");
           const tl = gsap.timeline({ scrollTrigger: { trigger: svg.parentElement, start: "top 55%", once: true } });
           tl.to(paths, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut", stagger: 0.12 }).add(flicker(svg), 0);
+          tl.scrollTrigger?.refresh();
         });
 
         gsap.utils.toArray<HTMLElement>("[data-led-scrub]").forEach((el) => {
@@ -134,6 +144,7 @@ export function MotionController({ heroParallax = true }: { heroParallax?: boole
         gsap.utils.toArray<HTMLElement>("[data-led-line]").forEach((el) => {
           const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 82%", once: true } });
           tl.fromTo(el, { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "expo.inOut" }).add(flicker(el), 0.85);
+          tl.scrollTrigger?.refresh();
         });
 
         const counted: [HTMLElement, number][] = [];
