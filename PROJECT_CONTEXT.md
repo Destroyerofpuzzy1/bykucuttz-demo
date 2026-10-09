@@ -26,7 +26,8 @@ Polish site for BYKUCUTZZ Barbershop (Łódź, Drewnowska 49a, LU11), with a dar
 - Salon 02 is unpublished; development shows a clearly marked preview (`NEXT_PUBLIC_SALON_02_PREVIEW`).
 - Read `AGENTS.md` before each task (`CLAUDE.md` points to it); update context, tasks and changelog after changes. The Phase 1 blueprint is a historical design proposal; this file and current code describe the implementation.
 - Local preview: the main checkout runs `npm run dev`, and `http://localhost:3000` is the main test address for both the homepage and `/cutz-academy`. One agent edits a checkout at a time; work from a separate worktree reaches the preview only through a deliberate merge (`AGENTS.md`).
-- No sitemap/robots files or production canonical domain are configured (`site.url` is null). Do not invent a deployment URL.
+- Repository state: `main` holds the whole current site: the homepage with the intro/Ekipa/navbar work (PR #1, `19ea293`) and, since PR #2 (merge commit `7502eb5`, 2026-10-09), the Booksy counters with the review-count heartbeat and CUTZ ACADEMY. New work branches from `main`; the main checkout follows `main`.
+- No sitemap/robots files or production canonical domain are configured (`site.url` is null). Do not invent a deployment URL. No production deployment has been confirmed (no hosting configuration in the repository, no GitHub deployments); do not assume the site is live.
 
 ## CUTZ ACADEMY
 - Static `/cutz-academy`, sections: hero (`#start`: logo, H1, one row of copy | CTA | strip controls, full-width strip of all 12 post-training photos) → "Szkolenia w praktyce" (`#szkolenia`: Fade Control / Shape Control cards with their photo effects, the four clips `#praktyka`, individual and group formats with photos of that format, details to confirm) → BYKUCUTZZ relationship (text) → Instagram inquiries (`#zapisy`). Shared Header (Academy variant) and Footer; no homepage Loader or sticky booking bar.
