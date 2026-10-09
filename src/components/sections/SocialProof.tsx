@@ -1,5 +1,6 @@
 import { site } from "@/data/site";
 import { TextLink } from "@/components/ui/Button";
+import { HexLamps } from "@/components/brand/HexLamps";
 import { formatAtLeast, formatRating } from "@/lib/utils";
 
 const { reviews, fiveStar, rating, sourceUrl } = site.stats;
@@ -15,10 +16,11 @@ const { reviews, fiveStar, rating, sourceUrl } = site.stats;
 export function SocialProof() {
   return (
     <section aria-labelledby="proof-title" className="section-y relative overflow-x-clip bg-ink">
+      <HexLamps variant="cluster" />
       <h2 id="proof-title" className="sr-only">
         {formatAtLeast(reviews)} opinii na Booksy, średnia ocena {formatRating(rating)}, {formatAtLeast(fiveStar)} ocen pięciogwiazdkowych
       </h2>
-      <div className="container-x">
+      <div className="container-x relative">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-6">
           <div className="review-count lg:col-span-7">
             <p className="t-mega tabular-nums leading-[0.85] max-lg:!text-[min(24vw,9rem)]" aria-hidden="true">

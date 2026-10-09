@@ -391,6 +391,115 @@ html.no-loader .loader {
   pointer-events: none;
 }
 
+/* ============ HEX LAMPS (accents) ============ */
+/* Hexagon lamps in perspective (HexLamps), modelled on the fittings in the salons: white tubes with a
+   soft cool glow, placed in space, never a flat pattern. Accents only; black stays the base. Each
+   section varies: giant cells on a side wall in SocialProof, the
+   neon sign in Crew, a panel overhead in the Finale. The section content follows in a positioned container. */
+.hex-lamps {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* blend in at the section top, so the lamps never end on a hard line */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 min(3rem, 8vw));
+  mask-image: linear-gradient(to bottom, transparent, #000 min(3rem, 8vw));
+}
+.hex-lamps__panel {
+  position: absolute;
+  top: var(--lamps-top, auto);
+  bottom: var(--lamps-bottom, auto);
+  right: var(--lamps-right);
+  width: var(--lamps-width);
+  -webkit-mask-image: var(--lamps-fade);
+  mask-image: var(--lamps-fade);
+}
+.hex-lamps__panel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hex-lamps__ceiling {
+  opacity: 0.035;
+}
+.hex-lamps__glow {
+  opacity: 0.65;
+}
+/* overhead (Finale): a wide panel centred over the free band, receding toward the tube */
+.hex-lamps--overhead {
+  --lamps-width: clamp(34rem, 58vw, 60rem);
+  --lamps-top: -2vw;
+  --lamps-right: calc((100% - var(--lamps-width)) / 2);
+  --lamps-fade: radial-gradient(ellipse 62% 120% at 50% 15%, #000 45%, transparent 100%);
+}
+/* cluster (SocialProof): a partial wall fitting; fade it fully before the Booksy link. */
+.hex-lamps--cluster {
+  --lamps-width: clamp(22rem, 36vw, 36rem);
+  --lamps-bottom: -4vw;
+  --lamps-right: -8vw;
+  --lamps-fade: radial-gradient(ellipse 72% 72% at 78% 50%, #000 35%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 21rem), transparent calc(100% - 15rem));
+  mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 21rem), transparent calc(100% - 15rem));
+}
+.hex-lamps--cluster .hex-lamps__panel {
+  opacity: 0.7;
+}
+/* phones: smaller, pushed into the corners, clear of the headings, the tube and the motto */
+@media (max-width: 767px) {
+  .hex-lamps--overhead {
+    --lamps-width: 118vw;
+    --lamps-top: -7vw;
+  }
+  .hex-lamps--cluster {
+    --lamps-width: 64vw;
+    --lamps-bottom: -14vw;
+    --lamps-right: -22vw;
+  }
+}
+
+/* ============ INDUSTRIAL SIGN (crew) ============ */
+.barber-tools {
+  position: absolute;
+  top: 0;
+  right: 23%;
+  width: clamp(11rem, 15vw, 14rem);
+  pointer-events: none;
+  opacity: 0.85;
+}
+.barber-tools svg { display: block; width: 100%; height: auto; }
+@media (max-width: 1199px) {
+  .barber-tools { right: 8%; width: 7rem; }
+}
+@media (max-width: 639px) {
+  .barber-tools { right: var(--gutter); top: 0.2rem; width: 5.75rem; opacity: 0.7; }
+}
+
+/* Reserved space keeps the steel fitting and its rear hex lamp clear of all copy.
+   The supplied logo is lit continuously: no flashing, drift or chain animation. */
+.neon-sign {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 37rem);
+  aspect-ratio: 64 / 46;
+  margin-bottom: clamp(1rem, 2vw, 2rem);
+  pointer-events: none;
+}
+.neon-sign__ring {
+  position: absolute;
+  top: 4%;
+  left: -7%;
+  width: 112%;
+  height: 96%;
+  opacity: 0.36;
+}
+.neon-sign__fitting {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
 /* ============ SALONS ============ */
 /* mobile: stacked near-fullscreen panels */
 .split {

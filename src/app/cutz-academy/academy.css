@@ -1,30 +1,32 @@
 /* Academy keeps the shared tokens; all page-specific rules are scoped. */
 .academy { padding-top: var(--nav-h); }
 .academy-h1, .academy-h2 { font-weight: 800; font-stretch: 106%; text-transform: uppercase; letter-spacing: -0.025em; line-height: 1.04; }
-/* two lines from tablets up ("…zaczyna się / od techniki."), three on phones. The size follows the
-   container: on desktop the first line ends about two thirds across, where the controls column starts. */
-.academy-h1 { font-size: clamp(2.35rem, calc((100vw - 2 * var(--gutter)) * 0.045), 4.25rem); max-width: 15.2em; }
+.academy-h1 { font-size: clamp(2.25rem, 5.2vw, 4.5rem); max-width: 20ch; margin-inline: auto; line-height: 1.1; }
 .academy-h2 { font-size: clamp(1.9rem, 3.7vw, 3.5rem); }
 /* keeps short Polish words with the next one (SplitText turns &nbsp; into a normal space) */
 .academy-nowrap { white-space: nowrap; }
 
-/* HERO: logo, heading, a hairline, one row of copy | CTA | strip controls (equal side columns, CTA
-   centred, controls flush right), then the full-bleed photo strip. Phones/tablets: one column. */
+/* HERO: heading -> supplied logo -> offer and CTA -> full-width participant strip. */
 .academy-hero { padding-block: clamp(1.75rem, 3vw, 2.5rem) clamp(2rem, 3.5vw, 3rem); }
-.academy-hero-brand { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.25rem; margin-bottom: clamp(1.5rem, 2.4vw, 2.25rem); }
-.academy-hero-logo { width: clamp(9.5rem, 12vw, 12rem); }
-.academy-intro { max-width: 30ch; }
-.academy-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; }
-/* small phones: the offer starts right below the hero, the photos get the room instead */
-@media (max-width: 479px) { .academy-hero-more { display: none; } }
+.academy-hero > .container-x { text-align: center; }
+.academy-hero-brand { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; margin-block: 1rem; }
+.academy-hero-logo { width: clamp(10.5rem, 15vw, 14rem); }
+.academy-hero-copy { display: grid; justify-items: center; gap: 1rem; }
+.academy-intro { max-width: 56ch; font-size: clamp(1.0625rem, 1.3vw, 1.25rem); line-height: 1.65; color: var(--color-bone); }
+.academy-hero-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.75rem 1.75rem; }
+@media (max-width: 639px) {
+  .academy-hero-actions { gap: 0.75rem; }
+  .academy-hero-actions .academy-cta { min-height: 3rem; padding-inline: 0.75rem; gap: 0.5rem; font-size: 0.8125rem; font-stretch: 100%; letter-spacing: 0.02em; }
+  .academy-hero-actions .link-line { min-height: 3rem; font-size: 0.875rem; }
+}
 
 /* PHOTO STRIP: one height, widths follow each photo (nothing cropped). Native scroll by default;
    with motion (.js-motion) AcademyGallery moves the track endlessly and opens the photos on entry. */
 .academy-strip { margin-top: clamp(1.5rem, 2.6vw, 2.25rem); }
-/* hairline across the container with a short cyan LED segment at its start */
-.academy-strip-bar { display: grid; align-items: center; gap: 1.25rem; padding-top: clamp(1.25rem, 2vw, 1.75rem); margin-bottom: clamp(1.5rem, 2.4vw, 2rem); background: linear-gradient(var(--color-cyan), var(--color-cyan)) var(--gutter) 0 / 3.5rem 2px no-repeat, linear-gradient(var(--color-graphite), var(--color-graphite)) var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px no-repeat; }
-.academy-gallery-controls { display: flex; align-items: center; gap: 0.5rem; }
-.academy-strip-count { margin-right: auto; padding-right: 0.75rem; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--color-steel); }
+.academy-gallery-footer { display: flex; justify-content: flex-end; margin-top: 0.75rem; }
+/* Below the photographs, so controls never cover a face. Phones: counter above the buttons. */
+.academy-gallery-controls { display: grid; grid-template-columns: repeat(3, 3rem); align-items: center; gap: 0.5rem; }
+.academy-strip-count { grid-column: 1 / -1; text-align: right; white-space: nowrap; font-size: 0.8125rem; font-variant-numeric: tabular-nums; color: var(--color-bone); }
 .academy-strip-count > span { margin-right: 0.5rem; }
 .academy-gallery-arrow { display: grid; place-items: center; width: 3rem; height: 3rem; border: 1px solid var(--color-steel); font-size: 1.5rem; transition: color 150ms, border-color 150ms; }
 .academy-gallery-arrow:hover:not(:disabled) { color: var(--color-cyan); border-color: var(--color-cyan); }
@@ -34,6 +36,7 @@
 .academy-gallery-track { display: flex; gap: var(--strip-gap); width: max-content; padding-inline: var(--gutter); }
 .academy-gallery-set { position: relative; display: flex; gap: var(--strip-gap); }
 :root:not(.js-motion) .academy-gallery-set + .academy-gallery-set, :root:not(.js-motion) .academy-gallery-pause { display: none; }
+:root:not(.js-motion) .academy-gallery-controls { grid-template-columns: repeat(2, 3rem); }
 .academy-gallery-slide { flex: none; scroll-snap-align: start; }
 .academy-gallery-slide:nth-child(even) { padding-top: 1.5rem; }
 .academy-gallery-frame { overflow: hidden; background: var(--color-carbon); }
@@ -41,7 +44,7 @@
 .academy-gallery-photo figcaption { contain: inline-size; margin-top: 0.6rem; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; font-variant-numeric: tabular-nums; color: var(--color-cyan); }
 .js-motion .academy-gallery { overflow: hidden; scroll-snap-type: none; padding-bottom: 0.25rem; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
 .js-motion .academy-gallery-track { padding-inline: 0; will-change: transform; }
-.js-motion .academy-gallery:not([data-entered]) .academy-gallery-frame { clip-path: inset(100% 0% 0% 0%); }
+.js-motion .academy-gallery:not([data-entered]) .academy-gallery-frame { clip-path: inset(12% 0% 0% 0%); }
 .academy-gallery.is-dragging { cursor: grabbing; }
 
 /* SECTION RHYTHM: a short LED tube ignites above each heading (data-led-line) */
@@ -62,29 +65,6 @@
 .academy-program-media { position: relative; order: -1; aspect-ratio: 1 / 1; overflow: hidden; margin: 0; background: var(--color-carbon); }
 .academy-program-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-/* FADE CONTROL: colour rises from the skin at the nape through the blend into the longer hair; the
-   boundary (--fade, from the bottom) carries a cyan line and moves up a little on hover */
-@property --fade-in { syntax: "<number>"; inherits: true; initial-value: 1; }
-@property --fade-rest { syntax: "<percentage>"; inherits: true; initial-value: 56%; }
-.academy-fade { --fade: calc(var(--fade-rest) * var(--fade-in)); transition: --fade-rest 900ms cubic-bezier(0.2, 0.7, 0.2, 1); }
-.js-motion .academy-fade { --fade-in: -0.25; }
-.academy-fade-base { filter: grayscale(1) brightness(0.42) contrast(1.1); }
-.academy-fade-colour { -webkit-mask-image: linear-gradient(to top, #000 calc(var(--fade) - 16%), #0000 calc(var(--fade) + 16%)); mask-image: linear-gradient(to top, #000 calc(var(--fade) - 16%), #0000 calc(var(--fade) + 16%)); }
-.academy-fade-line { position: absolute; inset: auto 0 var(--fade); z-index: 1; height: 2px; margin-bottom: -1px; background: linear-gradient(90deg, transparent, var(--color-cyan) 18%, var(--color-cyan) 82%, transparent); box-shadow: 0 0 12px #61ccf0b3; }
-.academy-program:hover .academy-fade, .academy-program:focus-within .academy-fade { --fade-rest: 70%; }
-
-/* SHAPE CONTROL: outline, weight line and section line drawn over a longer haircut in profile */
-.academy-shape img { filter: brightness(0.8); transition: filter 500ms; }
-.academy-shape-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.academy-shape-contour { fill: none; stroke: var(--color-cyan); stroke-width: 5; stroke-linecap: round; filter: drop-shadow(0 0 5px #61ccf0b3); transition: stroke-width 400ms, filter 400ms; }
-.academy-shape-guide { fill: none; stroke: var(--color-bone); stroke-width: 3; stroke-dasharray: 14 16; opacity: 0.5; transition: opacity 400ms, stroke 400ms; }
-.academy-shape-node { fill: var(--color-ink); stroke: var(--color-cyan); stroke-width: 4; transition: fill 300ms; }
-.js-motion .academy-shape-contour { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.js-motion .academy-shape-guides, .js-motion .academy-shape-node { opacity: 0; }
-.academy-program:hover .academy-shape img { filter: brightness(0.92); }
-.academy-program:hover .academy-shape-contour { stroke-width: 7; filter: drop-shadow(0 0 8px var(--color-cyan)); }
-.academy-program:hover .academy-shape-guide { opacity: 0.95; stroke: var(--color-cyan); }
-.academy-program:hover .academy-shape-node { fill: var(--color-cyan); }
 .academy-program ul { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
 .academy-program li { padding: 0.4rem 0.75rem; border: 1px solid var(--color-graphite); font-size: 0.8125rem; }
 .academy-program li::before { content: "+"; margin-right: 0.5rem; color: var(--color-cyan); }
@@ -123,21 +103,16 @@
 .academy-video figcaption > p { font-size: 0.9rem; max-width: 34ch; }
 
 /* BRAND: text only (its group photo now sits in the hero strip) */
+.academy-brand { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
 .academy-brand-grid { display: grid; gap: 2rem; }
 .academy-brand-grid h2 { margin-top: 1rem; }
 .academy-brand-copy { min-width: 0; }
 .academy-brand-copy > * + * { margin-top: 1.25rem; }
 .academy-brand-copy > p { max-width: 46ch; }
 
-.academy-contact { text-align: center; }
-.academy-led { width: clamp(5rem, 14vw, 11rem); height: 1px; margin: 0 auto 2.5rem; background: var(--color-cyan); box-shadow: 0 0 6px #61ccf050; transform-origin: center; }
-.academy-contact h2 { margin-block: 1rem 1.5rem; }
-.academy-contact .academy-cta { margin-top: 2rem; }
-.academy-contact-handle { margin-top: 1rem; }
-.academy-back { margin-top: 1.75rem; }
-
 @media (min-width: 640px) {
-  .academy-hero-meta { padding-left: 1.25rem; border-left: 1px solid #8e969c40; }
+  .academy-gallery-controls { display: flex; }
+  .academy-strip-count { margin-right: 0.75rem; }
   .academy-video { flex-basis: min(42vw, 19rem); }
 }
 @media (min-width: 768px) {
@@ -147,9 +122,6 @@
   .academy-brand-grid { grid-template-columns: 1fr 1fr; align-items: end; gap: clamp(2.5rem, 6vw, 6rem); }
 }
 @media (min-width: 1024px) {
-  .academy-strip-bar { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 2rem; }
-  .academy-gallery-controls { justify-self: end; }
-  .academy-strip-count { margin-right: 0.75rem; padding-right: 0; }
   .academy-videos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 1.8vw, 1.75rem); margin-inline: 0; padding: 0; overflow: visible; }
 }
 @media (min-width: 1100px) {
@@ -157,14 +129,11 @@
   .academy-program-media { order: 0; aspect-ratio: auto; min-height: 22rem; }
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .academy-program:hover .academy-shape-guide { animation: academy-guide-run 1.6s linear infinite; }
   .academy-video video, .academy-gallery-frame img, .academy-format-photo img { transition: scale 700ms cubic-bezier(0.2, 0.7, 0.2, 1); }
   .academy-video-frame:hover video, .academy-gallery-slide:hover .academy-gallery-frame img, .academy-format:hover .academy-format-photo img { scale: 1.04; }
   .academy-program:hover { border-color: #61ccf059; }
 }
-@keyframes academy-guide-run { to { stroke-dashoffset: -60; } }
 @media (prefers-reduced-motion: reduce) {
-  .academy-fade { transition: none; }
   .academy [data-reveal] { visibility: visible !important; opacity: 1 !important; transform: none !important; filter: none !important; }
-  .academy-led, .academy-section-led { transform: none !important; opacity: 1 !important; }
+  .academy-section-led { transform: none !important; opacity: 1 !important; }
 }

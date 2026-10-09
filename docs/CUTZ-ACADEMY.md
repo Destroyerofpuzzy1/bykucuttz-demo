@@ -8,6 +8,13 @@ checkout. Committed locally as `58d2f1a`; merged with the Booksy counters on
 `7502eb5`, 2026-10-09) together with the Booksy work. No deployment, DNS or ENV
 change was made; a production deployment has not been confirmed.
 
+Current local version (2026-10-09): both approved corrections are combined in the
+main checkout, feature/hex-3d-backgrounds, at http://localhost:3000/cutz-academy.
+The centred hero/controls/quick reveals/final-CTA cleanup from the Codex worktree
+was selectively integrated with the existing plain Fade/Shape photos. Claude's
+homepage work was continued as the industrial visual system. The combined changes are included in the client-authorised feature commit; no Git branch merge or deployment.
+The Codex code at port 3003 remains a reference version and still has the old photo overlays.
+
 ## Confirmed content and boundaries
 
 Client instructions and the official [Instagram profile](https://www.instagram.com/cutzzacademy/),
@@ -26,26 +33,38 @@ photographs are not presented as a promise of certification. No job guarantee.
 ## Route and design
 
 `src/app/cutz-academy/page.tsx` is a static Server Component route with its own
-title, description and Open Graph text. One H1, four H2s, offer H3s, semantic
+title, description and Open Graph text. One H1, two H2s, offer H3s, semantic
 sections, figures and descriptive image alt text. Page CSS is scoped to `.academy`
 and uses the shared black/graphite/cyan tokens and Archivo font.
 
 Current state (updated 2026-10-09, later the same day; the gallery/video layout described in
 earlier notes was replaced):
 
-1. Hero (`#start`): supplied Academy logo + "Szkolenia barberskie · Łódź", H1 "Dobre cięcie
-   zaczyna się od techniki." (2 lines desktop/tablet, 3 on phones), a hairline with a cyan LED
-   segment, one row of copy | CTA + "Poznaj ofertę" | strip controls (≥1024 px; stacked below),
-   then the full-width strip of all 12 post-training photos (`AcademyGallery`), the page's only
-   photo carousel and its main trust proof. No numbers or statistics are shown.
+1. Hero (`#start`), in order: centred H1 "Technika buduje przewagę." → the supplied Academy logo
+   → centred "Szkolenia barberskie · Łódź" caption below it → short description of individual/group training,
+   beginner-to-advanced scope and practice at the model → "Zapytaj o szkolenie" + the offer
+   link → full-width strip of all 12 post-training photos (`AcademyGallery`). Controls sit
+   below the photographs on the right, inside the carousel block: counter, pause, previous,
+   next. The three buttons are 48 × 48 px and never cover faces. Below 640 px the counter
+   sits above the button row; without motion only the two arrows remain. The hero stacks
+   naturally on phones; "Poznaj ofertę" stays available. The upper container is centred,
+   with a 56ch description, 16 px brand/copy spacing and an 8 px logo/caption gap. CTA and
+   offer link sit side by side, centred, including at 375/390 px (compact 13/14 px link
+   typography and 48 px heights). Flex wrapping handles narrower screens. The photo strip
+   remains outside the centred container and keeps the full available viewport width.
+   No training statistics are added.
 2. "Szkolenia w praktyce" (`#szkolenia`): Fade Control and Shape Control cards (copy + a photo
-   panel with a technique effect, `ProgramMedia`), the four clips in one row (`#praktyka`,
+   panel with a plain haircut photo, server component `ProgramMedia`), the four clips in one row (`#praktyka`,
    `AcademyVideos`), the individual and group formats with a photo of that format, and the note on
    details to confirm at registration (programme, date, duration, price, group size, venue,
    certificates).
 3. Brand/instructors (`#prowadzacy`): relationship with BYKUCUTZZ as text, no assigned instructor
    roles, link to `/#ekipa`.
-4. Inquiries (`#zapisy`): LED line, Instagram CTA, handle, homepage return.
+The complete final "Zrób kolejny krok" section is removed, including its description,
+CTA, Instagram handle, homepage-return link, LED element and section-specific CSS.
+The brand section ends with 40–64 px of bottom padding and is followed immediately
+by the unchanged shared Footer. `#zapisy` now identifies the hero CTA group, so the
+existing desktop/mobile navbar link works without a new bottom section.
 
 **Navbar.** The shared `Header` and `MobileNavigation` pick their variant from the route
 (`usePathname()`, rendered on the server, so the right variant is in the HTML). On
@@ -56,9 +75,9 @@ logo as the link home, START / SZKOLENIA / PRAKTYKA / ZAPISY (`/cutz-academy#sta
 variant is unchanged (salon links, "Umów wizytę" → Booksy). The navbar stays fixed in both scroll
 directions; Academy uses the solid `page` style and no homepage Loader or MobileBookingBar.
 
-**CTA logic.** Every training inquiry (hero, contact, navbar, mobile menu) is the shared
+**CTA logic.** Every training inquiry (hero, navbar, mobile menu) is the shared
 `AcademyCta`: `https://www.instagram.com/cutzzacademy/`, new tab, `noopener noreferrer`, an
-accessible destination note, `data-cta="academy-hero|contact|nav|menu"`. Booksy is never used as
+accessible destination note, `data-cta="academy-hero|nav|menu"`. Booksy is never used as
 the training CTA; it stays the salon booking action on the barbershop navbar. No form, backend,
 embed or integration.
 
@@ -102,8 +121,9 @@ Programme card photos: `cut4.jpeg` (a fade seen from behind, 1998 × 2664) and `
 (longer textured hair in profile, 1984 × 2660), client-supplied BYKUCUTZZ haircut photos, copied
 from the original checkout (SHA-256 identical) and cropped 4:5 around the head in source pixels
 (`fade.webp`, `shape.webp`, 800 × 1000, 48 274 / 70 918 bytes). They illustrate the technique and
-are not presented as work from a training. The Shape Control lines were traced by hand in the
-800 × 1000 crop space: a new crop needs new lines (`ProgramMedia.tsx`). `cut5.jpeg` is unused.
+are not presented as work from a training. Both images are now shown without drawings, masks,
+filters or photo overlays. The original assets, crops, dimensions and responsive sizing are
+unchanged; Shape Control's alt text describes the plain photo. `cut5.jpeg` is unused.
 
 Clips: `academy.mp4`, `academy2.mp4`, `academy3.mp4`, `academy4.mp4` from the original checkout,
 720 × 960, silent H.264 (6.8 / 10.5 / 7.6 / 9.9 s), copied without re-encoding with the MP4 index
@@ -132,22 +152,24 @@ Total audited source bytes (photos + both logos): 11935327; deployed masters +
 logo: 1556921 bytes (~87% smaller).
 Originals copied into the isolated worktree remain untracked. Original tracked
 files and `cut4–6.jpeg` were not changed by this task; other newly added media in
-that checkout remain there. No asset was committed.
+that checkout remain there. Optimized assets were committed with 58d2f1a; originals were not. This integration changes no media or asset pipeline.
 
 ## Motion and SEO
 
-Existing GSAP `MotionController` handles the reveals: H1/H2 masked line `slide` (y + blur,
-short stagger, repeatable), `rise` for copy, CTA, controls and cards, `clip` for format photos,
-`data-led-line` tubes above headings. (An earlier whole-heading `rise` for headings was replaced
-by `slide`; resizing tests showed no paused partial reveal.) Self-contained components: the
-photo strip (photos open from the bottom one after another, then an endless drift at a constant
+Existing GSAP MotionController retains the homepage presets and Claude's data-neon logic.
+Academy hero uses data-reveal="academy-hero": whole elements, 0.35 s / 8 px / power2.out,
+once, without blur or SplitText. Hero CTA and controls are immediately available.
+Other Academy headings/cards/format photos retain slide/rise/clip. Self-contained components:
+the photo strip (simultaneous 0.4 s entrance, 12% clip / 1.03 scale, then an endless drift at a constant
 34 px/s; hovering does not change it; dragging holds it and moves the strip 1:1 without inertia;
 after a drag or an arrow glide the drift eases back in; arrows, pause, keyboard ← →, stop while
 its controls have keyboard focus; seamless loop through copies of the set), clip tiles (play
-while ≥35 % visible, click to pause/resume, a clip paused by hand stays paused), the Fade card
-(registered `--fade` boundary rising from the nape, cyan line, lifted on hover) and the Shape
-card (outline, weight line, section line and nodes drawn once on scroll; hover brightens them).
-Reduced motion: no automatic movement, strip as native scroll with arrows, cards in their finished
+while ≥35 % visible, click to pause/resume, a clip paused by hand stays paused).
+Programme cards retain the existing `rise` entrance reveal, but their photos are static.
+`ProgramMedia` renders one Next Image per card, without client hooks, GSAP timelines, SVG paths,
+duplicate photo layers or drawing effects. Their dedicated CSS variables, masks, hover effects
+and drawing keyframes have been removed, rather than hidden.
+Reduced motion: no automatic movement, strip as native scroll with arrows, cards in their static
 state, clips start on click. `heroParallax={false}` marks
 motion ready without a Loader and skips only the homepage-specific selector on
 Academy; its default remains true for the homepage. No pins, gallery parallax or
@@ -189,6 +211,37 @@ strip speed equal with and without the pointer, drag 1:1 without inertia, eased 
 pause, seamless wrap; Fade/Shape reveal and hover; all four clips play and pause/resume on click;
 no horizontal overflow, CLS 0, no console errors or warnings on the production build; emulated
 `prefers-reduced-motion`. Details and numbers: `CHANGELOG_AI.md`.
+
+### Verification of the plain programme photos (2026-10-09)
+
+`npm run lint`, `npm run build` and `git diff --check` passed. Browser checks on the
+existing dev preview at port 3000, 1440/768/390/375 px: one loaded image in each photo
+panel, no SVG/line overlays, no image filter or mask, no horizontal overflow.
+At 1440 px card and photo dimensions, plus visible programme copy, match the pre-change
+measurements. Desktop and mobile visual checks cover both photos; no console errors.
+Next.js emitted a dev LCP warning for the lazy Fade photo after reloading directly at
+`#szkolenia`; its loading policy remains unchanged because the photo is below the normal hero.
+The port 3000 process remains running without restart; no ENV or asset changes.
+
+### Verification of the combined main preview (2026-10-09)
+
+The approved Codex hero/gallery changes and the main checkout's plain programme photos
+are combined at `http://localhost:3000/cutz-academy`. Lint, build and `git diff --check`
+passed. Browser checks at 1440/768/390/375 px cover the homepage and Academy: centred
+hero, full-width strip, controls below the photos on the right, 48 px control buttons,
+pause/resume, previous/next, keyboard navigation and mobile drag (170 px input produced
+170 px movement). Hero CTA and offer link align on one centre line; mobile menu anchors
+close the menu and land below the navbar. Both programme photos load as a single image,
+without SVG, filter or mask. The removed final CTA leaves no gap before the footer.
+No horizontal overflow or console errors/warnings were captured in this integration session.
+The homepage retains all three HexLamps instances, NeonSign and Salon 02.
+
+Reduced motion was checked against the actual layout boot script and MotionController
+in an isolated Node VM: no `js-motion` class and no animations created. Native gallery,
+CSS and video guards were reviewed. The browser API has no preference emulation,
+so this is a logic check, not an emulated browser visual test. Source hashes confirm
+Claude's protected files, clean ProgramMedia and corrected alt text were preserved.
+Both dev server processes (3000 and 3003) stayed running without restart or ENV changes.
 
 ## Before deployment
 

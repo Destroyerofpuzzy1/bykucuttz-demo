@@ -37,7 +37,7 @@ export const academyTopics = [
     lead: "Zrozum kształt. Nadaj kierunek.",
     description: "Technika i detale, które budują całość strzyżenia.",
     details: ["Świadoma praca z kształtem", "Dłuższe włosy i elementy maszynki", "Cieniowanie brody"],
-    media: { kind: "shape", photo: { ...images.shape, alt: "Dłuższa, teksturowana fryzura z profilu z zaznaczonym konturem, linią ciężaru i podziałem" } },
+    media: { kind: "shape", photo: { ...images.shape, alt: "Dłuższa, teksturowana fryzura widziana z profilu" } },
   },
 ] as const;
 

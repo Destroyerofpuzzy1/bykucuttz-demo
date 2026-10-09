@@ -26,30 +26,27 @@ export default function CutzAcademy() {
     <>
       <Header variant="page" address={primaryAddress()} />
       <main id="main" className="academy">
-        {/* HERO: logo, heading, then one row of copy | CTA | strip controls, then the photo strip of
-            people after trainings (trust proof) */}
+        {/* HERO: heading, logo, practical offer and inquiry, then the participant strip. */}
         <section id="start" className="academy-hero" aria-labelledby="academy-heading">
           <div className="container-x">
-            <div className="academy-hero-brand" data-reveal="rise">
+            <h1 id="academy-heading" className="academy-h1" data-reveal="academy-hero">
+              Technika buduje przewagę.
+            </h1>
+            <div className="academy-hero-brand" data-reveal="academy-hero">
               <div className="academy-hero-logo"><AcademyLogo preload /></div>
               <p className="t-meta text-steel academy-hero-meta">Szkolenia barberskie · {academy.city}</p>
             </div>
-            <h1 id="academy-heading" className="academy-h1" data-reveal="slide">
-              Dobre cięcie zaczyna się <span className="academy-nowrap">od techniki.</span>
-            </h1>
+            <div className="academy-hero-copy">
+              <p className="academy-intro" data-reveal="academy-hero">Szkolenia barberskie w Łodzi. Indywidualnie i w grupie, od podstaw do poziomu zaawansowanego. Uczysz się techniki i ćwiczysz przy modelu.</p>
+              <div id="zapisy" className="academy-hero-actions">
+                <AcademyCta source="hero" />
+                <a href="#szkolenia" className="link-line">Poznaj ofertę <span aria-hidden="true">↓</span></a>
+              </div>
+            </div>
           </div>
           <AcademyGallery
             count={academyPeople.length}
             label="Uczestnicy po szkoleniach CUTZ ACADEMY"
-            lead={
-              <>
-                <p className="t-body-l academy-intro" data-reveal="rise">Indywidualnie i w grupie. Z naciskiem na praktykę.</p>
-                <div className="academy-hero-actions" data-reveal="rise">
-                  <AcademyCta source="hero" />
-                  <a href="#szkolenia" className="link-line academy-hero-more">Poznaj ofertę <span aria-hidden="true">↓</span></a>
-                </div>
-              </>
-            }
           >
             {academyPeople.map((photo, index) => (
               <li className="academy-gallery-slide" key={photo.src}>
@@ -93,7 +90,7 @@ export default function CutzAcademy() {
                       ))}
                     </ul>
                   </div>
-                  <ProgramMedia kind={topic.media.kind} photo={topic.media.photo} />
+                  <ProgramMedia photo={topic.media.photo} />
                 </article>
               ))}
             </div>
@@ -141,15 +138,6 @@ export default function CutzAcademy() {
           </div>
         </section>
 
-        <section id="zapisy" className="academy-contact container-x section-y" aria-labelledby="academy-contact-heading">
-          <div className="academy-led" data-led-line aria-hidden="true" />
-          <p className="t-meta text-steel">Szkolenia barberskie w Łodzi</p>
-          <h2 id="academy-contact-heading" className="academy-h2" data-reveal="slide">Zrób kolejny krok.</h2>
-          <p className="t-body-l text-steel" data-reveal="fade">Napisz, jakie masz doświadczenie i co chcesz rozwinąć.<br className="hidden md:block" /> O szczegóły i dostępne terminy zapytaj w wiadomości prywatnej.</p>
-          <AcademyCta source="contact" />
-          <p className="t-meta text-steel academy-contact-handle">{academy.instagram.handle} · Zapisy przez Instagram</p>
-          <a href="/" className="link-line academy-back">Wróć do BYKUCUTZZ <span aria-hidden="true">↗</span></a>
-        </section>
       </main>
       <Footer />
       <MotionController heroParallax={false} />
