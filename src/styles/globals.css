@@ -580,8 +580,10 @@ html.no-loader .loader {
 /* ============ SOCIAL PROOF (Booksy counters) ============
    "+" after a counter = confirmed minimum (the profile keeps growing); smaller, raised, CTA cyan.
    Once the main review count has rolled to today's number ([data-counted], MotionController) it
-   beats like a calm pulse: two soft beats (a light scale from its left edge + a faint cyan glow),
-   then a rest. Only this number moves; static under reduced motion. */
+   beats like a heart: BAM (1.08), a dip (1.015), BAM (1.11, a little quicker), back to 1, a pause.
+   A neon halo behind the digits flares with each beat and fades fast while spreading outward. The small
+   cyan heart in front of the thanks beats in lockstep (same trigger, duration, keyframes and easing; a
+   bit less scale, its glow flaring with the number's). The text stays still; static under reduced motion. */
 .stat-plus {
   display: inline-block;
   margin-left: 0.04em;
@@ -591,36 +593,136 @@ html.no-loader .loader {
   color: var(--color-cyan);
 }
 .review-thanks {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   margin-top: 1.25rem;
   color: color-mix(in srgb, var(--color-bone) 82%, transparent);
 }
+.review-heart {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: var(--color-cyan);
+  filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
+  transform-origin: 50% 55%;
+}
 .review-pulse {
+  position: relative;
   display: inline-block;
-  transform-origin: 0% 70%;
+  isolation: isolate; /* keeps the halo's z-index -1 behind the digits, inside this element */
+  transform-origin: 25% 70%; /* grows mostly right/up: the number never reaches the screen edges */
+}
+/* The same characters in transparent ink, so only their layered cyan glow shows (rasterised once). */
+.review-halo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  white-space: nowrap;
+  color: transparent;
+  text-shadow:
+    0 0 0.03em #61ccf0,
+    0 0 0.1em rgb(97 204 240 / 0.85),
+    0 0 0.24em rgb(97 204 240 / 0.55),
+    0 0 0.5em rgb(97 204 240 / 0.3);
+  opacity: 0;
+  transform-origin: 50% 55%;
+  pointer-events: none;
+}
+.review-halo .stat-plus {
+  color: transparent;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .review-pulse:has([data-counted]) {
-    animation: review-heartbeat 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  /* one trigger and one duration for all three, so they start in the same frame and stay in phase */
+  .review-count:has([data-counted]) .review-pulse {
+    animation: review-beat 2.4s infinite;
+  }
+  .review-count:has([data-counted]) .review-halo {
+    animation: review-glow 2.4s infinite;
+  }
+  .review-count:has([data-counted]) .review-heart {
+    animation: review-heart 2.4s infinite;
   }
 }
-@keyframes review-heartbeat {
-  0%,
-  38%,
+/* 2.4 s cycle: attack 180 ms, dip 168 ms, second attack 144 ms, release 444 ms, rest 1.46 s */
+@keyframes review-beat {
+  0% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  7.5% {
+    transform: scale(1.08);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  14.5% {
+    transform: scale(1.015);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    transform: scale(1.11);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  39%,
   100% {
     transform: scale(1);
-    text-shadow: 0 0 0 rgb(97 204 240 / 0);
   }
-  9% {
-    transform: scale(1.026);
-    text-shadow: 0 0 0.14em rgb(97 204 240 / 0.34);
+}
+@keyframes review-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.99);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
   }
-  17% {
-    transform: scale(1.004);
-    text-shadow: 0 0 0.06em rgb(97 204 240 / 0.12);
+  7.5% {
+    opacity: 0.85;
+    transform: scale(1.02);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
-  26% {
-    transform: scale(1.015);
-    text-shadow: 0 0 0.1em rgb(97 204 240 / 0.24);
+  14.5% {
+    opacity: 0.3;
+    transform: scale(1.01);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    opacity: 0.95;
+    transform: scale(1.03);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  44% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.99);
+  }
+}
+/* the heart: review-beat's keyframes and easing, slightly smaller scale, glow flaring with the halo */
+@keyframes review-heart {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  7.5% {
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 6px rgb(97 204 240 / 0.9));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  14.5% {
+    transform: scale(1.012);
+    filter: drop-shadow(0 0 4px rgb(97 204 240 / 0.55));
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 7px rgb(97 204 240 / 0.95));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  39%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
   }
 }
 

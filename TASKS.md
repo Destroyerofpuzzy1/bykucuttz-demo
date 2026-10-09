@@ -1,6 +1,6 @@
 # TASKS
 
-Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08 work (`feature/cinematic-intro-section`) is merged into `main` (PR #1, `19ea293`). Local and not pushed: Booksy counters on `feature/booksy-opinie-plus` (`e7f05c9`), CUTZ ACADEMY on `codex/cutz-academy` (`58d2f1a`), both merged on `preview/integracja` in the main checkout `C:\Users\lukas\Documents\bykucuttz-demo`, the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`).
+Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08 work (`feature/cinematic-intro-section`) is merged into `main` (PR #1, `19ea293`). Local and not pushed: Booksy counters on `feature/booksy-opinie-plus` (`e7f05c9`), CUTZ ACADEMY on `codex/cutz-academy` (`58d2f1a`), both merged on `preview/integracja` in the main checkout `C:\Users\lukas\Documents\bykucuttz-demo`, the local preview at `http://localhost:3000` (workflow rules: `AGENTS.md`). Heartbeat refinement: committed on `feature/booksy-heartbeat-enhancement` (based on `preview/integracja`), push of that branch approved; its history carries the Booksy and Academy commits as well.
 
 ## Local integration preview (`preview/integracja`)
 - [x] Backups of both worktrees (tracked diffs and untracked files, SHA-256 verified) outside the repository before any Git change.
@@ -12,6 +12,13 @@ Status as of 2026-10-09; details per change in `CHANGELOG_AI.md`. The 2026-10-08
 - [ ] Bring both features into `main` through separate pull requests (push not authorised yet). The second one needs the same `CHANGELOG_AI.md` / `TASKS.md` / `PROJECT_CONTEXT.md` merge as here. Afterwards switch the preview checkout to `main` and retire `preview/integracja`.
 - [ ] Port 3000: another local project ("Lead Finder", `node server/app.js`) used to listen on IPv4 `0.0.0.0:3000` next to Next.js on IPv6; it stopped during the integration (not by an agent), so `localhost` and `127.0.0.1` now both reach the BYKUCUTZZ preview. If Lead Finder is started again, give it another port.
 - [ ] Stop the Codex preview servers (3001: old production build, 3002: dev) once the integrated preview is accepted; remove the Codex worktree only after `codex/cutz-academy` is merged into `main`.
+
+## Booksy heartbeat enhancement (`feature/booksy-heartbeat-enhancement`, from `preview/integracja` `f1dd9e8`), done, committed
+- [x] "5098+" beats clearly but calmly ("BAM BAM": 1.08 → 1.015 → 1.11 → 1, pause, 2.4 s) with a neon `#61ccf0` halo synced to each beat; starts after the count roll; static under reduced motion.
+- [x] Small cyan heart inline before "Dziękujemy za każde zaufanie.", beating in lockstep with "5098+" (same trigger, timing and keyframes, slightly less scale, glow flaring together); the text and everything else in the section stay still.
+- [x] Lint, build, `git diff --check`, browser tests at 1440/390/375 (dev preview and production build), incl. reduced motion, overflow and CLS.
+- [x] Committed with the client's approval (`feat: refine Booksy heartbeat and synchronized heart animation`); push of this branch approved.
+- [ ] Review, then merge into `preview/integracja` (the pull request target while that branch is the integration base). Into `main` only after the Booksy and Academy work has landed there; then this branch adds just the heartbeat commit (or rebase that single commit onto `main`). No merge or deployment so far.
 
 ## Booksy counters (`feature/booksy-opinie-plus`), done, awaiting review
 - [x] Counters shown as confirmed minimums ("5098+", "5093+") in the hero, social proof, Opinie and Crew; the 5,0 rating, data values and `asOf` unchanged.
