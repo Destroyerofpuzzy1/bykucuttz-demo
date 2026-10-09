@@ -9,6 +9,7 @@ import { Salons } from "@/components/sections/Salons";
 import { Pricing } from "@/components/sections/Pricing";
 import { Space } from "@/components/sections/Space";
 import { Team } from "@/components/sections/Team";
+import { AcademyTeaser } from "@/components/sections/AcademyTeaser";
 import { Work } from "@/components/sections/Work";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { Reviews } from "@/components/sections/Reviews";
@@ -29,6 +30,7 @@ export default function Home() {
         <Pricing />
         <Space />
         <Team />
+        <AcademyTeaser />
         <Work />
         <SocialProof />
         <Reviews />

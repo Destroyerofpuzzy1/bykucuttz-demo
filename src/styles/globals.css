@@ -31,6 +31,34 @@
   color-scheme: dark;
 }
 
+/* Original CUTZ ACADEMY mark. The black JPEG fallback needs a white mount. */
+.academy-logo-mount { display: block; background: #fff; padding: 0.25rem 0.35rem; }
+.academy-logo-mount--native { background: transparent; padding: 0.25rem 0; }
+.nav-brands { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.academy-nav-link { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; }
+.academy-nav-link .academy-logo-mount { width: 100%; }
+@media (min-width: 1280px) { .nav-brands { gap: 1rem; } .academy-nav-link { width: 8rem; padding-left: 1rem; } }
+/* CUTZ ACADEMY navbar: Academy mark first and larger, smaller BYKUCUTZZ mark as the way back home */
+.academy-nav-main { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; flex-shrink: 0; }
+.academy-nav-main .academy-logo-mount { width: 100%; }
+.nav-home-link { display: flex; align-items: center; min-height: 2.75rem; width: 5.25rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; opacity: 0.85; transition: opacity 150ms; }
+.nav-home-link:hover { opacity: 1; }
+@media (min-width: 1280px) { .academy-nav-main { width: 8rem; } .nav-home-link { width: 6rem; padding-left: 1rem; } }
+
+/* Compact bridge from the homepage crew to the dedicated training page. */
+.academy-teaser { padding-block: 2rem 4rem; }
+.academy-teaser-inner { display: grid; background: var(--color-carbon); border-block: 1px solid var(--color-graphite); }
+.academy-teaser-photo { min-width: 0; }
+.academy-teaser-photo img { display: block; width: 100%; height: 15rem; object-fit: cover; object-position: 50% 35%; }
+.academy-teaser-copy { padding: clamp(1.5rem, 3vw, 3rem); align-self: center; }
+.academy-teaser-logo { width: 8rem; margin-bottom: 1rem; }
+.academy-teaser-copy h2 { font-size: clamp(1.6rem, 2.8vw, 2.5rem); line-height: 1.1; font-weight: 800; text-transform: uppercase; letter-spacing: -0.025em; }
+.academy-teaser-copy p { max-width: 60ch; color: var(--color-steel); margin-block: 1rem; }
+@media (min-width: 768px) {
+  .academy-teaser-inner { grid-template-columns: minmax(12rem, 17.5rem) 1fr; }
+  .academy-teaser-photo img { height: 100%; max-height: 26rem; }
+}
+
 /* ============ BASE ============ */
 @layer base {
   html {
@@ -546,6 +574,155 @@ html.no-loader .loader {
   from {
     opacity: 0;
     transform: translateY(12px);
+  }
+}
+
+/* ============ SOCIAL PROOF (Booksy counters) ============
+   "+" after a counter = confirmed minimum (the profile keeps growing); smaller, raised, CTA cyan.
+   Once the main review count has rolled to today's number ([data-counted], MotionController) it
+   beats like a heart: BAM (1.08), a dip (1.015), BAM (1.11, a little quicker), back to 1, a pause.
+   A neon halo behind the digits flares with each beat and fades fast while spreading outward. The small
+   cyan heart in front of the thanks beats in lockstep (same trigger, duration, keyframes and easing; a
+   bit less scale, its glow flaring with the number's). The text stays still; static under reduced motion. */
+.stat-plus {
+  display: inline-block;
+  margin-left: 0.04em;
+  font-size: 0.5em;
+  line-height: 1;
+  vertical-align: 0.78em;
+  color: var(--color-cyan);
+}
+.review-thanks {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+  color: color-mix(in srgb, var(--color-bone) 82%, transparent);
+}
+.review-heart {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: var(--color-cyan);
+  filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
+  transform-origin: 50% 55%;
+}
+.review-pulse {
+  position: relative;
+  display: inline-block;
+  isolation: isolate; /* keeps the halo's z-index -1 behind the digits, inside this element */
+  transform-origin: 25% 70%; /* grows mostly right/up: the number never reaches the screen edges */
+}
+/* The same characters in transparent ink, so only their layered cyan glow shows (rasterised once). */
+.review-halo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  white-space: nowrap;
+  color: transparent;
+  text-shadow:
+    0 0 0.03em #61ccf0,
+    0 0 0.1em rgb(97 204 240 / 0.85),
+    0 0 0.24em rgb(97 204 240 / 0.55),
+    0 0 0.5em rgb(97 204 240 / 0.3);
+  opacity: 0;
+  transform-origin: 50% 55%;
+  pointer-events: none;
+}
+.review-halo .stat-plus {
+  color: transparent;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* one trigger and one duration for all three, so they start in the same frame and stay in phase */
+  .review-count:has([data-counted]) .review-pulse {
+    animation: review-beat 2.4s infinite;
+  }
+  .review-count:has([data-counted]) .review-halo {
+    animation: review-glow 2.4s infinite;
+  }
+  .review-count:has([data-counted]) .review-heart {
+    animation: review-heart 2.4s infinite;
+  }
+}
+/* 2.4 s cycle: attack 180 ms, dip 168 ms, second attack 144 ms, release 444 ms, rest 1.46 s */
+@keyframes review-beat {
+  0% {
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  7.5% {
+    transform: scale(1.08);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  14.5% {
+    transform: scale(1.015);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    transform: scale(1.11);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  39%,
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes review-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.99);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  7.5% {
+    opacity: 0.85;
+    transform: scale(1.02);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  14.5% {
+    opacity: 0.3;
+    transform: scale(1.01);
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    opacity: 0.95;
+    transform: scale(1.03);
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  44% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.99);
+  }
+}
+/* the heart: review-beat's keyframes and easing, slightly smaller scale, glow flaring with the halo */
+@keyframes review-heart {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  7.5% {
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 6px rgb(97 204 240 / 0.9));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  14.5% {
+    transform: scale(1.012);
+    filter: drop-shadow(0 0 4px rgb(97 204 240 / 0.55));
+    animation-timing-function: cubic-bezier(0.33, 0.8, 0.4, 1);
+  }
+  20.5% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 7px rgb(97 204 240 / 0.95));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+  }
+  39%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgb(97 204 240 / 0.45));
   }
 }
 
