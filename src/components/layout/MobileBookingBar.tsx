@@ -10,7 +10,7 @@ const KEY = "bk-salon";
 
 /**
  * Mobile-only booking bar. Visible between the hero and the finale, hidden where a
- * section already carries its own booking actions (salon panels, finale, footer).
+ * section already carries its own booking actions (salon panels, the reviews CTA, finale, footer).
  * With 2+ bookable salons, the first tap asks which one; the choice is remembered.
  */
 export function MobileBookingBar({ options }: { options: Option[] }) {
@@ -28,7 +28,7 @@ export function MobileBookingBar({ options }: { options: Option[] }) {
 
   useEffect(() => {
     const blockers = new Map<Element, boolean>();
-    const targets = ["#start", "#salony-panels", "#finale", "#kontakt"]
+    const targets = ["#start", "#salony-panels", "#opinie-cta", "#finale", "#kontakt"]
       .map((s) => document.querySelector(s))
       .filter(Boolean) as Element[];
     const io = new IntersectionObserver(
@@ -67,7 +67,7 @@ export function MobileBookingBar({ options }: { options: Option[] }) {
   return (
     <>
       <div
-        className={`fixed inset-x-0 bottom-0 z-[var(--z-sticky)] border-t border-graphite bg-ink/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-500 ease-[var(--ease-out-expo)] lg:hidden ${
+        className={`mobile-booking-bar fixed inset-x-0 bottom-0 z-[var(--z-sticky)] border-t border-graphite bg-ink/95 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 transition-transform duration-500 ease-[var(--ease-out-expo)] lg:hidden ${
           visible ? "translate-y-0" : "translate-y-full"
         }`}
         aria-hidden={!visible}

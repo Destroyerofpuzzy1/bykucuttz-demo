@@ -12,8 +12,8 @@ export const site = {
   bookingUrl: BOOKSY_URL,
   socials: {
     instagram: { url: "https://www.instagram.com/bykucutzz/", handle: "@bykucutzz" },
-    // TO VERIFY: no official Facebook page found (Booksy links only Instagram).
-    facebook: null as null | { url: string },
+    // Official profile, supplied by the client 2026-10-09. No handle: shown as "Facebook".
+    facebook: { url: "https://www.facebook.com/p/Bykucutzz-61553701834235/" } as null | { url: string },
   },
   // TO PROVIDE: Booksy hides the phone number behind login. Never fill from third-party directories.
   phone: null as null | { display: string; tel: string },

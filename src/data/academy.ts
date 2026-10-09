@@ -13,6 +13,11 @@ export const academy = {
   // full syllabus and whether any certificate is issued. Photos are not proof of an offer.
 } as const;
 
+/** The one visible statement about unconfirmed offer details (programme, dates, duration, price,
+ *  group size, venue, instructor, certificates): they are agreed in the Instagram conversation. */
+export const academyInquiryNote =
+  "Szczegóły, dostępne terminy i cenę szkolenia ustalisz z nami w wiadomości na Instagramie.";
+
 /** Navbar on the Academy route: the page's own sections (ids on /cutz-academy), not the salon links. */
 export const academyNavLinks = [
   { href: `${academy.href}#start`, label: "Start" },

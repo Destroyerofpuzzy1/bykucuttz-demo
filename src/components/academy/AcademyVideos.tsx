@@ -85,7 +85,7 @@ export function AcademyVideos({ videos }: { videos: readonly Video[] }) {
         const stopped = !on && (intent[index] === "pause" || (intent[index] === "auto" && mode === "manual"));
         const action = on ? "Zatrzymaj" : intent[index] === "pause" ? "Wznów" : "Odtwórz";
         return (
-          <li className="academy-video" data-reveal="rise" data-state={on ? "playing" : stopped ? "paused" : "waiting"} key={video.src}>
+          <li className="academy-video" data-reveal="fade" data-state={on ? "playing" : stopped ? "paused" : "waiting"} key={video.src}>
             <figure>
               <div className="academy-video-frame">
                 <video
@@ -108,9 +108,6 @@ export function AcademyVideos({ videos }: { videos: readonly Video[] }) {
                 >
                   <source src={video.src} type="video/mp4" />
                 </video>
-                <span className="academy-video-index t-meta" aria-hidden="true">
-                  0{index + 1}
-                </span>
                 {mode !== "static" && (
                   <button
                     type="button"
@@ -132,7 +129,6 @@ export function AcademyVideos({ videos }: { videos: readonly Video[] }) {
                 )}
               </div>
               <figcaption id={`academy-video-caption-${index}`}>
-                <span className="t-meta text-cyan">0{index + 1} / Z bliska</span>
                 <h3>{video.title}</h3>
                 <p className="text-steel">{video.description}</p>
               </figcaption>

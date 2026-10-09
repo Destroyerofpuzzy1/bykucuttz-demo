@@ -71,8 +71,8 @@ export function Loader() {
       // 1. tubes switch on along the ceiling
       .to(paths, { strokeDashoffset: 0, duration: draw, ease: "power2.inOut", stagger: { each: draw / Math.max(paths.length, 1) / 1.6 } }, 0.05)
       .add(flicker(q(".loader__trace")), 0.05)
-      // 2. logo out of the dark, one cyan pulse, the phrase
-      .fromTo(q(".loader__fill"), { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 0.5, ease: "power3.inOut" }, short ? 0.1 : 0.3)
+      // 2. logo out of the dark (the clip wipe exists only during the reveal), one cyan pulse, the phrase
+      .fromTo(q(".loader__fill"), { autoAlpha: 0, clipPath: "inset(0 100% 0 0)" }, { autoAlpha: 1, clipPath: "inset(0 0% 0 0)", duration: 0.5, ease: "power3.inOut", clearProps: "clipPath" }, short ? 0.1 : 0.3)
       .fromTo(q(".loader__sil"), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.12, ease: "none" }, short ? 0.45 : 0.68)
       .to(q(".loader__sil"), { autoAlpha: 0, duration: 0.45, ease: "power2.in" }, short ? 0.6 : 0.82)
       .fromTo(q(".loader__tag"), { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5 }, short ? 0.4 : 0.62)
@@ -113,7 +113,7 @@ export function Loader() {
       <LedTrace name="hero" className="loader__trace absolute inset-0 hidden h-full w-full md:block" />
       <LedTrace name="chair" className="loader__trace absolute inset-0 h-full w-full md:hidden" />
       <div className="loader__brand absolute inset-0 flex flex-col items-center justify-center gap-5 px-6">
-        <div className="relative w-[min(72vw,30rem)]" style={{ aspectRatio: "2240 / 720" }}>
+        <div className="relative w-[min(72vw,30rem)]" style={{ aspectRatio: "2288 / 784" }}>
           <img src="/images/brand/logo-silhouette.svg" alt="" className="loader__sil invisible absolute inset-0 h-full w-full" />
           <img src="/images/brand/logo-fill.svg" alt="" className="loader__fill invisible absolute inset-0 h-full w-full" />
         </div>

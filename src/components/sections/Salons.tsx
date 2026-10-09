@@ -122,8 +122,9 @@ function SalonPanel({ salon, side, single }: { salon: SalonView; side: "a" | "b"
           )}
           {map && (
             <a href={map} target="_blank" rel="noopener" className="link-line">
-              <NavigationArrow size={18} weight="light" aria-hidden="true" className="rotate-90" />
+              <NavigationArrow size={18} weight="light" aria-hidden="true" className="link-icon rotate-90" />
               Prowadź
+              <span className="sr-only"> do salonu (Mapy Google, otwiera się w nowej karcie)</span>
             </a>
           )}
         </div>

@@ -9,7 +9,8 @@
     "assets": "node scripts/build-assets.mjs",
     "assets:academy": "node scripts/build-academy-assets.mjs",
     "lint": "tsc --noEmit",
-    "assets:academy:videos": "node scripts/build-academy-videos.mjs"
+    "assets:academy:videos": "node scripts/build-academy-videos.mjs",
+    "assets:academy:logo": "node scripts/build-academy-logo-svg.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

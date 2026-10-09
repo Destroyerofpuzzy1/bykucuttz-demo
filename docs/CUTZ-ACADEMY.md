@@ -15,6 +15,20 @@ was selectively integrated with the existing plain Fade/Shape photos. Claude's
 homepage work was continued as the industrial visual system. The combined changes are included in the client-authorised feature commit; no Git branch merge or deployment.
 The Codex code at port 3003 remains a reference version and still has the old photo overlays.
 
+## White-dominant identity (2026-10-09, current)
+
+CUTZ ACADEMY is now the light division of the brand (client decision, 2026-10-09): white-dominant, black type and graphic elements, Academy blue only as a detail. BYKUCUTZZ stays black/white/cyan; the homepage, its Manifest HexGrid and its identity are unchanged. Details, tokens and verification: `CHANGELOG_AI.md` (entry "CUTZ ACADEMY: white-dominant brand identity") and `PROJECT_CONTEXT.md` (section CUTZ ACADEMY). The sections "Route and design" and "Motion and SEO" below describe the earlier dark version where they differ; current structure:
+
+1. Hero `#start`: black vector mark + "Szkolenia barberskie / Łódź" (blue rule) → black rule → H1 "Technika buduje przewagę." | description, black "Zapytaj o szkolenie" CTA, "Poznaj ofertę" → 12-photo strip (mechanics unchanged; controls black/graphite with blue hover).
+2. `#szkolenia`: Fade Control / Shape Control as alternating editorial rows (plain photos, ruled detail lists).
+3. `#praktyka`: the one black band; four clips, one featured.
+4. `#formaty`: Indywidualnie / W grupie, ruled columns with photos.
+5. `#zapisy`: closing inquiry with the one statement about unconfirmed details and the Instagram CTA (the navbar's "Zapisy" now lands here, not on the hero CTA).
+6. `#prowadzacy`: BYKUCUTZZ relationship, after the inquiry.
+7. Light Academy footer (mark, @cutzzacademy, BYKUCUTZZ as parent).
+
+**Logo implementation.** Before: raster PNG (`/images/academy/logo.png`, white on transparency) via `next/image`. After: inline SVG path traced from that PNG (`npm run assets:academy:logo`), `currentColor`; no raster logo at runtime. If the client supplies a native vector file, it can replace the traced path in `src/components/brand/academy-logo.json`.
+
 ## Confirmed content and boundaries
 
 Client instructions and the official [Instagram profile](https://www.instagram.com/cutzzacademy/),

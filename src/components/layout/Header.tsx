@@ -52,7 +52,8 @@ export function Header({ variant = "home", address }: Props) {
         {...(variant === "home" ? { "data-hero": "nav" } : {})}
         className={cn(
           "fixed inset-x-0 top-0 z-[var(--z-nav)] transition-[background-color] duration-500 ease-[var(--ease-out-expo)]",
-          solid ? "bg-carbon/95" : "bg-transparent"
+          // CUTZ ACADEMY is the light division of the brand: paper navbar, black type and mark
+          isAcademy ? "academy-header" : solid ? "bg-carbon/95" : "bg-transparent"
         )}
       >
         <nav aria-label="Główna" className="container-x flex h-[var(--nav-h)] items-center justify-between gap-3 xl:gap-6">
@@ -68,7 +69,7 @@ export function Header({ variant = "home", address }: Props) {
           ) : (
             <div className="nav-brands">
               <a href="/" className="-ml-1 block p-1" aria-label="BYKUCUTZZ, strona główna">
-                <Logo decorative className="w-[6.75rem] xl:w-[8rem]" />
+                <Logo decorative className="w-[6.875rem] xl:w-[8.125rem]" />
               </a>
               <a href={academy.href} aria-label="CUTZ ACADEMY, szkolenia barberskie" className="academy-nav-link">
                 <AcademyLogo decorative />
@@ -78,7 +79,13 @@ export function Header({ variant = "home", address }: Props) {
           <ul className="hidden items-center gap-4 lg:flex xl:gap-8">
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="t-button relative py-3 text-[0.8125rem] text-bone/85 transition-colors hover:text-bone">
+                <a
+                  href={l.href}
+                  className={cn(
+                    "t-button relative py-3 text-[0.8125rem] transition-colors",
+                    isAcademy ? "academy-navlink" : "nav-link text-bone/85 hover:text-bone focus-visible:text-bone"
+                  )}
+                >
                   {l.label}
                 </a>
               </li>

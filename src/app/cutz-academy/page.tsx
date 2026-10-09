@@ -8,7 +8,14 @@ import { AcademyCta } from "@/components/academy/AcademyCta";
 import { AcademyGallery } from "@/components/academy/AcademyGallery";
 import { AcademyVideos } from "@/components/academy/AcademyVideos";
 import { ProgramMedia } from "@/components/academy/ProgramMedia";
-import { academy, academyFormats, academyPeople, academyTopics, academyVideos } from "@/data/academy";
+import {
+  academy,
+  academyFormats,
+  academyInquiryNote,
+  academyPeople,
+  academyTopics,
+  academyVideos,
+} from "@/data/academy";
 import { primaryAddress } from "@/data/salons";
 import "./academy.css";
 
@@ -21,33 +28,49 @@ export const metadata: Metadata = {
   openGraph: { title, description, locale: "pl_PL", type: "website" },
 };
 
+/**
+ * CUTZ ACADEMY: the light, editorial division of the brand (BYKUCUTZZ is black and neon).
+ * Paper/white surfaces, black type and mark, Academy blue only as a detail; one black band for the
+ * training clips. Visitor flow: understand -> see the training -> see it in practice -> choose a
+ * format -> ask on Instagram; the BYKUCUTZZ relationship comes after the inquiry.
+ * All styles are scoped under `.academy-theme` (academy.css).
+ */
 export default function CutzAcademy() {
   return (
-    <>
+    <div className="academy-theme">
       <Header variant="page" address={primaryAddress()} />
       <main id="main" className="academy">
-        {/* HERO: heading, logo, practical offer and inquiry, then the participant strip. */}
+        {/* HERO: the Academy mark first, then the statement, offer and inquiry; then the participant strip */}
         <section id="start" className="academy-hero" aria-labelledby="academy-heading">
           <div className="container-x">
-            <h1 id="academy-heading" className="academy-h1" data-reveal="academy-hero">
-              Technika buduje przewagę.
-            </h1>
-            <div className="academy-hero-brand" data-reveal="academy-hero">
-              <div className="academy-hero-logo"><AcademyLogo preload /></div>
-              <p className="t-meta text-steel academy-hero-meta">Szkolenia barberskie · {academy.city}</p>
+            <div className="academy-hero-top" data-reveal="academy-hero">
+              <div className="academy-hero-logo">
+                <AcademyLogo />
+              </div>
+              <p className="academy-hero-meta">
+                <span>Szkolenia barberskie</span>
+                <span>{academy.city}</span>
+              </p>
             </div>
-            <div className="academy-hero-copy">
-              <p className="academy-intro" data-reveal="academy-hero">Szkolenia barberskie w Łodzi. Indywidualnie i w grupie, od podstaw do poziomu zaawansowanego. Uczysz się techniki i ćwiczysz przy modelu.</p>
-              <div id="zapisy" className="academy-hero-actions">
-                <AcademyCta source="hero" />
-                <a href="#szkolenia" className="link-line">Poznaj ofertę <span aria-hidden="true">↓</span></a>
+            <div className="academy-hero-main">
+              <h1 id="academy-heading" className="academy-h1" data-reveal="academy-hero">
+                Technika buduje przewagę.
+              </h1>
+              <div className="academy-hero-copy" data-reveal="academy-hero">
+                <p className="academy-intro">
+                  Szkolenia barberskie w Łodzi. Indywidualnie i w grupie, od podstaw do poziomu zaawansowanego. Uczysz się
+                  techniki i ćwiczysz przy modelu.
+                </p>
+                <div className="academy-hero-actions">
+                  <AcademyCta source="hero" />
+                  <a href="#szkolenia" className="academy-textlink">
+                    Poznaj ofertę <span aria-hidden="true">↓</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-          <AcademyGallery
-            count={academyPeople.length}
-            label="Uczestnicy po szkoleniach CUTZ ACADEMY"
-          >
+          <AcademyGallery count={academyPeople.length} label="Uczestnicy po szkoleniach CUTZ ACADEMY">
             {academyPeople.map((photo, index) => (
               <li className="academy-gallery-slide" key={photo.src}>
                 <figure className="academy-gallery-photo">
@@ -67,80 +90,115 @@ export default function CutzAcademy() {
           </AcademyGallery>
         </section>
 
-        {/* TRAININGS IN PRACTICE: programmes, clips from the classes, formats with photos of that format */}
-        <section id="szkolenia" className="academy-practice section-y" aria-labelledby="academy-practice-heading">
+        {/* PROGRAMMES: editorial rows (rule, name, lead, details), photo and copy alternate sides */}
+        <section id="szkolenia" className="academy-section academy-section--white" aria-labelledby="academy-practice-heading">
           <div className="container-x">
-            <span className="academy-section-led" data-led-line aria-hidden="true" />
-            <div className="academy-section-heading">
-              <h2 id="academy-practice-heading" className="academy-h2" data-reveal="slide">Szkolenia <br />w praktyce.</h2>
-              <p className="t-body-l text-steel" data-reveal="fade">Od podstaw do poziomu zaawansowanego. Praktyka, analiza błędów i wymiana doświadczeń. W Łodzi.</p>
-            </div>
+            <header className="academy-head">
+              <h2 id="academy-practice-heading" className="academy-h2" data-reveal="lines">
+                Szkolenia w praktyce.
+              </h2>
+              <p className="academy-lead">Od podstaw do poziomu zaawansowanego. Praktyka, analiza błędów i wymiana doświadczeń. W Łodzi.</p>
+            </header>
 
             <div className="academy-programs">
-              {academyTopics.map((topic, index) => (
-                <article className={`academy-program academy-program--${topic.media.kind}`} data-reveal="rise" key={topic.name}>
+              {academyTopics.map((topic) => (
+                <article className={`academy-program academy-program--${topic.media.kind}`} key={topic.name}>
+                  <div className="academy-program-media-wrap" data-reveal="clip">
+                    <ProgramMedia photo={topic.media.photo} />
+                  </div>
                   <div className="academy-program-copy">
-                    <p className="t-meta text-cyan">0{index + 1} / Program</p>
                     <h3>{topic.name}</h3>
                     <p className="academy-program-lead">{topic.lead}</p>
-                    <p className="text-steel">{topic.description}</p>
-                    <ul>
+                    <p className="academy-program-text">{topic.description}</p>
+                    <ul className="academy-program-details">
                       {topic.details.map((detail) => (
                         <li key={detail}>{detail}</li>
                       ))}
                     </ul>
                   </div>
-                  <ProgramMedia photo={topic.media.photo} />
                 </article>
               ))}
             </div>
+          </div>
+        </section>
 
-            <div id="praktyka" className="academy-reel">
-              <p className="academy-reel-label t-meta" data-reveal="fade">
-                <span className="text-cyan">Z zajęć CUTZ ACADEMY</span> · Filmy bez dźwięku · Kliknij film, aby go zatrzymać lub wznowić
-              </p>
-              <AcademyVideos videos={academyVideos} />
-            </div>
+        {/* PRACTICE: the page's one black band; real clips, one featured and three supporting */}
+        <section id="praktyka" className="academy-section academy-section--ink" aria-labelledby="academy-reel-heading">
+          <div className="container-x">
+            <header className="academy-head academy-head--row">
+              <h2 id="academy-reel-heading" className="academy-h2" data-reveal="lines">
+                Z zajęć.
+              </h2>
+              <p className="academy-reel-note">Filmy bez dźwięku. Kliknij film, aby go zatrzymać lub wznowić.</p>
+            </header>
+            <AcademyVideos videos={academyVideos} />
+          </div>
+        </section>
 
+        {/* FORMATS: two clear options, no pricing-card look */}
+        <section id="formaty" className="academy-section" aria-labelledby="academy-formats-heading">
+          <div className="container-x">
+            <header className="academy-head">
+              <h2 id="academy-formats-heading" className="academy-h2" data-reveal="lines">
+                Wybierz format.
+              </h2>
+            </header>
             <div className="academy-formats">
-              {academyFormats.map((format, index) => (
+              {academyFormats.map((format) => (
                 <article className="academy-format" key={format.name}>
+                  <h3>{format.name}</h3>
+                  <p className="academy-format-text">{format.text}</p>
                   <figure className="academy-format-photo" data-reveal="clip">
                     <Image {...format.photo} quality={80} sizes="(min-width: 768px) 46vw, 100vw" />
                   </figure>
-                  <div className="academy-format-copy" data-reveal="rise">
-                    <p className="t-meta text-cyan">0{index + 1} / Format</p>
-                    <h3 className="t-title">{format.name}</h3>
-                    <p className="text-steel">{format.text}</p>
-                  </div>
                 </article>
               ))}
             </div>
-
-            <p className="academy-confirmation t-meta text-steel">
-              Do potwierdzenia przy zapisie: program, termin, czas trwania, cena, liczba uczestników, dokładne miejsce szkolenia i informacja o certyfikatach.
-            </p>
           </div>
         </section>
 
-        <section id="prowadzacy" className="academy-brand section-y" aria-labelledby="academy-brand-heading">
+        {/* INQUIRY: the closing conversion; the navbar's "Zapisy" lands here */}
+        <section id="zapisy" className="academy-section academy-section--white academy-closing" aria-labelledby="academy-closing-heading">
+          <div className="container-x academy-closing-grid">
+            <h2 id="academy-closing-heading" className="academy-closing-title" data-reveal="lines">
+              Zapytaj o szkolenie.
+            </h2>
+            <div className="academy-closing-copy">
+              <p className="academy-closing-note">{academyInquiryNote}</p>
+              <p className="academy-closing-handle">
+                Instagram{" "}
+                <a href={academy.instagram.url} target="_blank" rel="noopener noreferrer">
+                  {academy.instagram.handle}
+                  <span className="sr-only"> (otwiera się w nowej karcie)</span>
+                </a>
+              </p>
+              <AcademyCta source="closing" large />
+            </div>
+          </div>
+        </section>
+
+        {/* BRAND: the relationship with BYKUCUTZZ, after the inquiry */}
+        <section id="prowadzacy" className="academy-section academy-section--mist academy-brand" aria-labelledby="academy-brand-heading">
           <div className="container-x academy-brand-grid">
-            <div>
-              <span className="academy-section-led" data-led-line aria-hidden="true" />
-              <p className="t-meta text-cyan">CUTZ ACADEMY × BYKUCUTZZ</p>
-              <h2 id="academy-brand-heading" className="academy-h2" data-reveal="slide">Ta sama marka. <br />Przestrzeń <span className="academy-nowrap">do nauki.</span></h2>
-            </div>
+            <h2 id="academy-brand-heading" className="academy-h3" data-reveal="lines">
+              Ta sama marka. <br />
+              Przestrzeń <span className="academy-nowrap">do nauki.</span>
+            </h2>
             <div className="academy-brand-copy">
-              <p className="t-body-l" data-reveal="fade">CUTZ ACADEMY to szkolenia barberskie prowadzone przez BYKUCUTZZ. Dzielimy się wiedzą przy fotelu: pokazujemy technikę, analizujemy pracę i dopracowujemy szczegóły.</p>
-              <p className="text-steel">Osobę prowadzącą i zakres konkretnego szkolenia potwierdzisz bezpośrednio z Academy przy zapisie.</p>
-              <a href="/#ekipa" className="link-line">Poznaj BYKUCUTZZ <span aria-hidden="true">↗</span></a>
+              <p>
+                CUTZ ACADEMY to szkolenia barberskie prowadzone przez BYKUCUTZZ. Dzielimy się wiedzą przy fotelu: pokazujemy
+                technikę, analizujemy pracę i dopracowujemy szczegóły.
+              </p>
+              <p className="academy-muted">Osobę prowadzącą i zakres konkretnego szkolenia potwierdzisz bezpośrednio z Academy przy zapisie.</p>
+              <a href="/#ekipa" className="academy-textlink">
+                Poznaj BYKUCUTZZ <span aria-hidden="true">↗</span>
+              </a>
             </div>
           </div>
         </section>
-
       </main>
-      <Footer />
+      <Footer variant="academy" />
       <MotionController heroParallax={false} />
-    </>
+    </div>
   );
 }

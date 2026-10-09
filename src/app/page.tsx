@@ -11,7 +11,6 @@ import { Space } from "@/components/sections/Space";
 import { Team } from "@/components/sections/Team";
 import { AcademyTeaser } from "@/components/sections/AcademyTeaser";
 import { Work } from "@/components/sections/Work";
-import { SocialProof } from "@/components/sections/SocialProof";
 import { Reviews } from "@/components/sections/Reviews";
 import { Crew } from "@/components/sections/Crew";
 import { Finale } from "@/components/sections/Finale";
@@ -30,11 +29,11 @@ export default function Home() {
         <Pricing />
         <Space />
         <Team />
-        <AcademyTeaser />
         <Work />
-        <SocialProof />
         <Reviews />
         <Crew />
+        {/* secondary product: after the barbershop story, before the final booking moment */}
+        <AcademyTeaser />
         <Finale />
         <Contact />
       </main>

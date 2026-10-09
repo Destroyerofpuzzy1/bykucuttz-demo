@@ -8,6 +8,7 @@ export type CtaSource =
   | "salon-02"
   | "cennik"
   | "ekipa"
+  | "opinie"
   | "finale"
   | "sticky"
   | "kontakt";

@@ -52,7 +52,7 @@ export function MobileNavigation({ open, onClose, address, academy = false }: Pr
       role="dialog"
       aria-modal="true"
       aria-label="Menu"
-      className="fixed inset-0 z-[var(--z-menu)] flex flex-col overflow-y-auto bg-ink lg:hidden"
+      className={`fixed inset-0 z-[var(--z-menu)] flex flex-col overflow-y-auto lg:hidden ${academy ? "academy-menu" : "bg-ink"}`}
     >
       <div className="container-x flex h-[var(--nav-h)] shrink-0 items-center justify-between">
         {academy ? (
@@ -67,7 +67,7 @@ export function MobileNavigation({ open, onClose, address, academy = false }: Pr
         ) : (
           <div className="nav-brands">
             <a href="/" onClick={onClose} className="-ml-1 block p-1" aria-label="BYKUCUTZZ, strona główna">
-              <Logo decorative className="w-[6.75rem]" />
+              <Logo decorative className="w-[6.875rem]" />
             </a>
             <a href={academyData.href} onClick={onClose} aria-label="CUTZ ACADEMY, szkolenia barberskie" className="academy-nav-link">
               <AcademyLogo decorative />
@@ -82,7 +82,7 @@ export function MobileNavigation({ open, onClose, address, academy = false }: Pr
 
       <ul className="container-x mt-4 flex flex-col">
         {(academy ? academyNavLinks : navLinks).map((l) => (
-          <li key={l.href} className="border-b border-graphite">
+          <li key={l.href} className={academy ? "border-b border-[var(--a-line)]" : "border-b border-graphite"}>
             <a
               href={l.href}
               onClick={onClose}
@@ -95,14 +95,14 @@ export function MobileNavigation({ open, onClose, address, academy = false }: Pr
       </ul>
 
       <div className="container-x mt-auto flex flex-col gap-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-10">
-        <p className="t-meta text-steel">{academy ? `Szkolenia barberskie · ${academyData.city}` : address}</p>
+        <p className={`t-meta ${academy ? "text-[var(--a-muted)]" : "text-steel"}`}>{academy ? `Szkolenia barberskie · ${academyData.city}` : address}</p>
         <a
           href={academy ? academyData.instagram.url : site.socials.instagram.url}
           target="_blank"
           rel="noopener"
           className="inline-flex min-h-12 items-center gap-3 font-semibold"
         >
-          <InstagramLogo size={22} weight="light" aria-hidden="true" />
+          <InstagramLogo size={22} weight="light" aria-hidden="true" className={academy ? undefined : "text-cyan"} />
           {academy ? academyData.instagram.handle : site.socials.instagram.handle}
         </a>
         {academy ? <AcademyCta source="menu" className="w-full" /> : <BookingButton source="menu" className="w-full" />}

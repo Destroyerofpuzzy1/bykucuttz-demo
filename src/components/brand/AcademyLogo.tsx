@@ -1,21 +1,21 @@
-import Image from "next/image";
-import images from "@/data/academy-images.json";
+import mark from "./academy-logo.json";
 
-/** Original supplied mark, including scissors and texture. No redraw/recolour.
- *  Always eager: the same file sits in the navbar above the fold on every page. */
-export function AcademyLogo({ decorative = false, preload = false }: { decorative?: boolean; preload?: boolean }) {
+/**
+ * The CUTZ ACADEMY mark (CUTZ lettering, ACADEMY and the scissors) as one inline vector path, traced
+ * from the supplied transparent logo (scripts/build-academy-logo-svg.mjs). No redraw, no typeface.
+ * It takes the surrounding text colour (fill="currentColor"): black on the light Academy pages,
+ * white on the dark BYKUCUTZZ homepage (navbar link, teaser). Width comes from the parent; height
+ * follows the mark's own ratio, so it is sharp at every size and never stretched.
+ */
+export function AcademyLogo({ decorative = false, className }: { decorative?: boolean; className?: string }) {
   return (
-    <span className={`academy-logo-mount${images.logo.native ? " academy-logo-mount--native" : ""}`}>
-      <Image
-        src="/images/academy/logo.png"
-        alt={decorative ? "" : "CUTZ ACADEMY"}
-        width={images.logo.width}
-        height={images.logo.height}
-        unoptimized
-        loading="eager"
-        preload={preload}
-        className="block h-auto w-full"
-      />
-    </span>
+    <svg
+      viewBox={mark.viewBox}
+      fill="currentColor"
+      className={`academy-logo block h-auto w-full ${className ?? ""}`}
+      {...(decorative ? { "aria-hidden": true, focusable: "false" } : { role: "img", "aria-label": "CUTZ ACADEMY" })}
+    >
+      <path fillRule="evenodd" d={mark.d} />
+    </svg>
   );
 }

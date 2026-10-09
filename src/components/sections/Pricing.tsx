@@ -2,7 +2,6 @@ import { serviceGroups, type ServiceGroup } from "@/data/pricing";
 import { site } from "@/data/site";
 import { BookingButton, TextLink } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { BarberTools } from "@/components/brand/BarberTools";
 import { zl } from "@/lib/utils";
 
 // Desktop: two balanced columns of groups. Groups with a Byku variant get a second, cyan price column.
@@ -11,12 +10,11 @@ const columns: ServiceGroup[][] = [
   serviceGroups.filter((g) => ["broda", "junior"].includes(g.id)),
 ];
 
-/** Every price stays visible; a small suspended tool fitting occupies the free header space. */
+/** Every price stays visible; no decoration competes with the list. */
 export function Pricing() {
   return (
     <section id="cennik" aria-labelledby="cennik-title" className="section-y relative bg-ink">
-      <BarberTools />
-      <div className="container-x relative">
+      <div className="container-x">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeading id="cennik-title" lead="Bez zgadywania. Tyle płacisz, tyle trwa.">
             Cennik.

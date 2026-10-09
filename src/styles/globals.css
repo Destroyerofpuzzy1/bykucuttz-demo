@@ -32,15 +32,16 @@
 }
 
 /* Original CUTZ ACADEMY mark. The black JPEG fallback needs a white mount. */
-.academy-logo-mount { display: block; background: #fff; padding: 0.25rem 0.35rem; }
-.academy-logo-mount--native { background: transparent; padding: 0.25rem 0; }
 .nav-brands { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
-.academy-nav-link { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; }
-.academy-nav-link .academy-logo-mount { width: 100%; }
+.academy-nav-link { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; color: var(--color-bone); transition: color 0.2s, border-color 0.2s; }
+/* the switch into Academy: the white mark takes the interactive cyan and lifts a hair */
+.academy-nav-link svg { transition: transform 0.2s var(--ease-out-expo); }
+.academy-nav-link:hover, .academy-nav-link:focus-visible { color: var(--color-cyan); border-left-color: #61ccf066; }
+.academy-nav-link:hover svg, .academy-nav-link:focus-visible svg { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) { .academy-nav-link:hover svg, .academy-nav-link:focus-visible svg { transform: none; } }
 @media (min-width: 1280px) { .nav-brands { gap: 1rem; } .academy-nav-link { width: 8rem; padding-left: 1rem; } }
 /* CUTZ ACADEMY navbar: Academy mark first and larger, smaller BYKUCUTZZ mark as the way back home */
 .academy-nav-main { display: flex; align-items: center; min-height: 2.75rem; width: 6.75rem; flex-shrink: 0; }
-.academy-nav-main .academy-logo-mount { width: 100%; }
 .nav-home-link { display: flex; align-items: center; min-height: 2.75rem; width: 5.25rem; padding-left: 0.75rem; border-left: 1px solid #8e969c40; flex-shrink: 0; opacity: 0.85; transition: opacity 150ms; }
 .nav-home-link:hover { opacity: 1; }
 @media (min-width: 1280px) { .academy-nav-main { width: 8rem; } .nav-home-link { width: 6rem; padding-left: 1rem; } }
@@ -59,6 +60,20 @@
   .academy-teaser-photo img { height: 100%; max-height: 26rem; }
 }
 
+/* ============ MOBILE BOOKING BAR CLEARANCE ============
+   One token for the fixed mobile booking bar (MobileBookingBar), 0 wherever the bar does not exist.
+   It feeds scroll-padding-bottom (anchors and keyboard focus never land under the bar) and the
+   footer's bottom padding (the last line of the page always clears it). */
+:root {
+  --sticky-cta-h: 0px;
+}
+@media (max-width: 1023.98px) {
+  html:has(.mobile-booking-bar) {
+    /* 12px top + 52px button + max(12px, safe area) bottom + 1px border, plus breathing room */
+    --sticky-cta-h: calc(5.25rem + env(safe-area-inset-bottom));
+  }
+}
+
 /* ============ BASE ============ */
 @layer base {
   html {
@@ -69,6 +84,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-padding-top: var(--nav-h);
+    scroll-padding-bottom: var(--sticky-cta-h);
   }
   body {
     background: var(--color-ink);
@@ -250,6 +266,10 @@
     min-height: 2.75rem;
     font-weight: 600;
   }
+  /* one language for secondary links: a quiet base rule; on hover/focus a thin cyan rule draws over
+     it from the left, an arrow (.link-arrow) steps up-right, an icon (.link-icon, cyan) lifts a hair.
+     Buttons keep their own (fill swap). */
+  .link-line::before,
   .link-line::after {
     content: "";
     position: absolute;
@@ -257,13 +277,164 @@
     right: 0;
     bottom: 0.55rem;
     height: 1.5px;
-    background: currentColor;
-    transform-origin: left;
-    transition: transform 0.5s var(--ease-out-expo);
   }
-  .link-line:hover::after {
+  .link-line::before {
+    background: currentColor;
+    opacity: 0.4;
+  }
+  .link-line::after {
+    background: var(--color-cyan);
     transform: scaleX(0);
-    transform-origin: right;
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-out-expo);
+  }
+  .link-line:hover::after,
+  .link-line:focus-visible::after {
+    transform: scaleX(1);
+  }
+  .link-icon {
+    flex-shrink: 0;
+    color: var(--color-cyan);
+    transition: transform 0.2s var(--ease-out-expo);
+  }
+  .link-arrow {
+    flex-shrink: 0;
+    transition:
+      transform 0.2s var(--ease-out-expo),
+      color 0.2s;
+  }
+  a:hover .link-icon,
+  a:focus-visible .link-icon {
+    transform: translateY(-1px) scale(1.06);
+  }
+  a:hover .link-arrow,
+  a:focus-visible .link-arrow {
+    transform: translate(3px, -3px);
+  }
+
+  /* Kontakt rows: full-width touch target between graphite rules; the cyan rule runs along the
+     bottom edge on hover/focus, the external arrow sits at the far end */
+  .link-rows {
+    border-top: 1px solid var(--color-graphite);
+  }
+  .link-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    min-height: 3.5rem;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--color-graphite);
+    font-weight: 600;
+  }
+  .link-row::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--color-cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-out-expo);
+  }
+  .link-row:hover::after,
+  .link-row:focus-visible::after {
+    transform: scaleX(1);
+  }
+  .link-row .link-arrow {
+    margin-left: auto;
+    color: var(--color-steel);
+  }
+  .link-row:hover .link-arrow,
+  .link-row:focus-visible .link-arrow {
+    color: var(--color-cyan);
+  }
+
+  /* small cyan rule before a section label (the same mark as the Robota captions) */
+  .label-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .label-rule::before {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    flex-shrink: 0;
+    background: var(--color-cyan);
+  }
+
+  /* compact icon-only social links (footer): 44px targets, cyan mark, lifts and gets a short rule */
+  .social-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--color-cyan);
+  }
+  .social-icon svg {
+    transition: transform 0.2s var(--ease-out-expo);
+  }
+  .social-icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.3rem;
+    width: 1rem;
+    height: 1px;
+    margin-left: -0.5rem;
+    background: var(--color-cyan);
+    transform: scaleX(0);
+    transition: transform 0.2s var(--ease-out-expo);
+  }
+  .social-icon:hover svg,
+  .social-icon:focus-visible svg {
+    transform: translateY(-2px);
+  }
+  .social-icon:hover::after,
+  .social-icon:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* navbar section links: a thin cyan rule grows under the label on hover/focus */
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.35rem;
+    height: 1.5px;
+    background: var(--color-cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease-out-expo);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .link-line::after,
+    .link-row::after,
+    .nav-link::after,
+    .social-icon::after,
+    .social-icon svg,
+    .link-icon,
+    .link-arrow {
+      transition: none;
+    }
+    a:hover .link-icon,
+    a:focus-visible .link-icon,
+    a:hover .link-arrow,
+    a:focus-visible .link-arrow,
+    .social-icon:hover svg,
+    .social-icon:focus-visible svg {
+      transform: none;
+    }
   }
 
   .wrap {
@@ -389,115 +560,6 @@ html.no-loader .loader {
   z-index: -1;
   background: radial-gradient(closest-side, rgb(6 7 8 / 0.82), rgb(6 7 8 / 0.5) 55%, rgb(6 7 8 / 0));
   pointer-events: none;
-}
-
-/* ============ HEX LAMPS (accents) ============ */
-/* Hexagon lamps in perspective (HexLamps), modelled on the fittings in the salons: white tubes with a
-   soft cool glow, placed in space, never a flat pattern. Accents only; black stays the base. Each
-   section varies: giant cells on a side wall in SocialProof, the
-   neon sign in Crew, a panel overhead in the Finale. The section content follows in a positioned container. */
-.hex-lamps {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  /* blend in at the section top, so the lamps never end on a hard line */
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 min(3rem, 8vw));
-  mask-image: linear-gradient(to bottom, transparent, #000 min(3rem, 8vw));
-}
-.hex-lamps__panel {
-  position: absolute;
-  top: var(--lamps-top, auto);
-  bottom: var(--lamps-bottom, auto);
-  right: var(--lamps-right);
-  width: var(--lamps-width);
-  -webkit-mask-image: var(--lamps-fade);
-  mask-image: var(--lamps-fade);
-}
-.hex-lamps__panel svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.hex-lamps__ceiling {
-  opacity: 0.035;
-}
-.hex-lamps__glow {
-  opacity: 0.65;
-}
-/* overhead (Finale): a wide panel centred over the free band, receding toward the tube */
-.hex-lamps--overhead {
-  --lamps-width: clamp(34rem, 58vw, 60rem);
-  --lamps-top: -2vw;
-  --lamps-right: calc((100% - var(--lamps-width)) / 2);
-  --lamps-fade: radial-gradient(ellipse 62% 120% at 50% 15%, #000 45%, transparent 100%);
-}
-/* cluster (SocialProof): a partial wall fitting; fade it fully before the Booksy link. */
-.hex-lamps--cluster {
-  --lamps-width: clamp(22rem, 36vw, 36rem);
-  --lamps-bottom: -4vw;
-  --lamps-right: -8vw;
-  --lamps-fade: radial-gradient(ellipse 72% 72% at 78% 50%, #000 35%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 21rem), transparent calc(100% - 15rem));
-  mask-image: linear-gradient(to bottom, transparent, #000 3rem, #000 calc(100% - 21rem), transparent calc(100% - 15rem));
-}
-.hex-lamps--cluster .hex-lamps__panel {
-  opacity: 0.7;
-}
-/* phones: smaller, pushed into the corners, clear of the headings, the tube and the motto */
-@media (max-width: 767px) {
-  .hex-lamps--overhead {
-    --lamps-width: 118vw;
-    --lamps-top: -7vw;
-  }
-  .hex-lamps--cluster {
-    --lamps-width: 64vw;
-    --lamps-bottom: -14vw;
-    --lamps-right: -22vw;
-  }
-}
-
-/* ============ INDUSTRIAL SIGN (crew) ============ */
-.barber-tools {
-  position: absolute;
-  top: 0;
-  right: 23%;
-  width: clamp(11rem, 15vw, 14rem);
-  pointer-events: none;
-  opacity: 0.85;
-}
-.barber-tools svg { display: block; width: 100%; height: auto; }
-@media (max-width: 1199px) {
-  .barber-tools { right: 8%; width: 7rem; }
-}
-@media (max-width: 639px) {
-  .barber-tools { right: var(--gutter); top: 0.2rem; width: 5.75rem; opacity: 0.7; }
-}
-
-/* Reserved space keeps the steel fitting and its rear hex lamp clear of all copy.
-   The supplied logo is lit continuously: no flashing, drift or chain animation. */
-.neon-sign {
-  position: relative;
-  isolation: isolate;
-  width: min(100%, 37rem);
-  aspect-ratio: 64 / 46;
-  margin-bottom: clamp(1rem, 2vw, 2rem);
-  pointer-events: none;
-}
-.neon-sign__ring {
-  position: absolute;
-  top: 4%;
-  left: -7%;
-  width: 112%;
-  height: 96%;
-  opacity: 0.36;
-}
-.neon-sign__fitting {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
 }
 
 /* ============ SALONS ============ */
@@ -690,6 +752,7 @@ html.no-loader .loader {
    "+" after a counter = confirmed minimum (the profile keeps growing); smaller, raised, CTA cyan.
    Once the main review count has rolled to today's number ([data-counted], MotionController) it
    beats like a heart: BAM (1.08), a dip (1.015), BAM (1.11, a little quicker), back to 1, a pause.
+   It beats three times and then stays still for good: it draws attention once, it is not ambient motion.
    A neon halo behind the digits flares with each beat and fades fast while spreading outward. The small
    cyan heart in front of the thanks beats in lockstep (same trigger, duration, keyframes and easing; a
    bit less scale, its glow flaring with the number's). The text stays still; static under reduced motion. */
@@ -744,13 +807,13 @@ html.no-loader .loader {
 @media (prefers-reduced-motion: no-preference) {
   /* one trigger and one duration for all three, so they start in the same frame and stay in phase */
   .review-count:has([data-counted]) .review-pulse {
-    animation: review-beat 2.4s infinite;
+    animation: review-beat 2.4s 3;
   }
   .review-count:has([data-counted]) .review-halo {
-    animation: review-glow 2.4s infinite;
+    animation: review-glow 2.4s 3;
   }
   .review-count:has([data-counted]) .review-heart {
-    animation: review-heart 2.4s infinite;
+    animation: review-heart 2.4s 3;
   }
 }
 /* 2.4 s cycle: attack 180 ms, dip 168 ms, second attack 144 ms, release 444 ms, rest 1.46 s */
